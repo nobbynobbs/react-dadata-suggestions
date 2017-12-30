@@ -8,7 +8,7 @@ const extractLess = new ExtractTextPlugin({
 });
 
 module.exports = {
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: ['./src/index.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
@@ -28,7 +28,10 @@ module.exports = {
         test: /\.less$|\.css$/,
         use: extractLess.extract({
           use: [{
-            loader: "css-loader"
+            loader: "css-loader",
+            options: {
+              minimize: true
+            }
           }, {
             loader: "less-loader"
           }],

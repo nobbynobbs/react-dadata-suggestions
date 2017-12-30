@@ -24,25 +24,26 @@ class DadataSuggestions extends Component {
     showSuggestions: false
   };
 
-  fetchData = async (query) => {
+  fetchData = (query) => {
     this.setState({
       loading: true,
     });
 
-    try {
-      const suggestions = await this.api.address(query, this.props.count);
-      this.setState({
-        suggestions,
-        loading: false,
-        error: false,
-        showSuggestions: true,
+    this.api.address(query, this.props.count)
+      .then(suggestions => {
+        this.setState({
+          suggestions,
+          loading: false,
+          error: false,
+          showSuggestions: true,
+        });
+      })
+      .catch(e => {
+        console.warn(e);
+        this.setState({
+          error: true
+        });
       });
-    } catch (e) {
-      console.warn(e);
-      this.setState({
-        error: true
-      });
-    }
   };
 
   onChange = (e) => {
