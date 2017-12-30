@@ -1,7 +1,11 @@
 {
   "name": "react-dadata-suggestions",
   "version": "0.0.1",
-  "description": "React clone of jQuery plugin for dadata",
+  "description": "Just another one react component for dadata suggestions",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nobbynobbs/react-dadata-suggestions.git"
+  },
   "main": "dist/index.js",
   "peerDependencies": {
     "react": "^15.5.4"
