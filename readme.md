@@ -7,6 +7,8 @@ Current version of component supports suggestions for address only.
 
 ### Basic usage
 
+[![Edit p95804280q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/p95804280q)
+
 ```
 import React, { Component } from 'react';
 import DadataSuggestions from 'react-dadata-suggestions';
