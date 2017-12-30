@@ -101,8 +101,8 @@ class DadataSuggestions extends Component {
   };
 
   onSelect = (index) => () => {
-    const { onSelect } = this.props;
-    const query = this.state.suggestions[index].value;
+    const selectedSuggestion = this.state.suggestions[index];
+    const query = selectedSuggestion.value;
 
     this.setState({
       selected: index,
@@ -110,7 +110,7 @@ class DadataSuggestions extends Component {
       query
     });
 
-    const selectedSuggestion = this.state.suggestions[index];
+    const { onSelect } = this.props;
     onSelect(selectedSuggestion)
   };
 
