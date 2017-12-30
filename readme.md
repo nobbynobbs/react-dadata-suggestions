@@ -1,7 +1,6 @@
 # react-dadata-suggestions
 
-Just another one React component for [dadata suggestions](https://dadata.ru/suggestions/ "official website").
-Current version of component supports suggestions for address only.
+Just another one React component for [dadata suggestions](https://dadata.ru/suggestions "official website").
 
 ## Getting started
 
@@ -37,7 +36,13 @@ export default App;
 * `count` - integer, limit for list of suggestions. Optional. Default value is `10`, maximum is `20`. 
 * `hint` - string, hint for user in suggestions list. Optional. Default value `Выберите вариант ниже или продолжите ввод`
 * `minChars` - integer, minimum length of query for requesting to api. Optional, default `3`
-* `geolocation` - boolean, priority to user city. Optional. Default `true`;
+* `geolocation` - boolean, priority to user city. Optional, default `true`. Works for address suggestions only.
+* `service` - string, optional, default value `address`, available values:
+  * address
+  * bank
+  * fio
+  * party - I don't know why, but api for searching of the companies is called "party"
+  * email
 
 #### Callbacks
 * `onSelect(suggestion)` - be called when user select the address from suggestions. **Required!**
