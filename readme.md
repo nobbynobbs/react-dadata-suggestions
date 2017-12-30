@@ -42,6 +42,6 @@ export default App;
 The structure of `suggestion` can be found in [official documentation](https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669107)
 * `onChange(query)` - be called when user typing something in input field. Optional.
 
-##License
+## License
 
 This project is licensed under the MIT License
