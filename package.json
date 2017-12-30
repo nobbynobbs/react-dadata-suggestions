@@ -10,9 +10,6 @@
   "peerDependencies": {
     "react": "^15.5.4"
   },
-  "dependencies": {
-    "react": "^15.5.4"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --watch",
@@ -39,5 +36,6 @@
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }
