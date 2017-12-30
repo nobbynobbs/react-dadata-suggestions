@@ -94,7 +94,7 @@ class DadataSuggestions extends Component {
           selected: selected < maxSuggestionIndex ? selected + 1 : 0
         });
       }
-      if (e.which === enterKey || e.which === tabKey) {
+      if ((e.which === enterKey || e.which === tabKey) && selected !== -1) {
         this.onSelect(selected)();
       }
       if (e.which === escapeKey) {
