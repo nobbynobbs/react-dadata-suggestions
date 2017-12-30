@@ -1,25 +1,19 @@
-class FetchApi {
+import Api from './Api';
 
-  static apiUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs';
+class FetchApi extends Api {
 
   constructor(token, location = true) {
-    this.headers = new Headers({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': `Token ${token}`,
-    });
-    this.locations_boost = [];
+    super(token);
+    this.headers = this.headersFactory();
     if (location) {
       this.detectAddress();
     }
   }
 
   detectAddress = () => {
-    const endpoint = `${FetchApi.apiUrl}/detectAddressByIp`;
-    const request = new Request(endpoint, {
-      method: 'GET',
-      headers: this.headers
-    });
+    const endpoint = `${Api.apiUrl}/detectAddressByIp`;
+    const request = this.requestFactory(endpoint, 'GET');
+
     fetch(request)
       .then(response => response.json())
       .then(response => response.location.data)
@@ -28,21 +22,40 @@ class FetchApi {
         if (kladr_id) {
           this.locations_boost = [...this.locations_boost, {kladr_id}]
         }
-      });
+      })
+      .catch(() => null); // just die
   };
 
   address = (query, count = 10) => {
-    const endpoint = `${FetchApi.apiUrl}/suggest/address`;
+    const endpoint = `${Api.apiUrl}/suggest/address`;
     const body = {query, count};
     if (!!this.locations_boost.length) {
       body.locations_boost = this.locations_boost;
     }
-    const request = new Request(endpoint, {
-      method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify(body)
+    const request = this.requestFactory(endpoint, 'POST', body);
+    return fetch(request)
+      .then(response => response.json())
+      .then(response => response.suggestions);
+  };
+
+  requestFactory = (endpoint, method, body = null) => {
+    const params = {
+      endpoint,
+      method,
+      headers: this.headers
+    };
+    if (body) {
+      params.body = JSON.stringify(body);
+    }
+    return new Request(endpoint, params);
+  };
+
+  headersFactory() {
+    return new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Token ${this.token}`,
     });
-    return fetch(request);
   };
 
 }
