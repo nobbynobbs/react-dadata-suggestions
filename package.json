@@ -1,6 +1,6 @@
 {
   "name": "react-dadata-suggestions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Just another one react component for dadata suggestions",
   "repository": {
     "type": "git",
@@ -8,9 +8,6 @@
   },
   "main": "dist/index.js",
   "peerDependencies": {
-    "react": "^15.5.4"
-  },
-  "dependencies": {
     "react": "^15.5.4"
   },
   "scripts": {
@@ -39,5 +36,6 @@
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

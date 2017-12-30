@@ -1,4 +1,4 @@
-# react-dadata-suggestions v.0.0.1
+# react-dadata-suggestions
 
 Just another one React component for [dadata suggestions](https://dadata.ru/suggestions/ "official website").
 Current version of component supports suggestions for address only.
