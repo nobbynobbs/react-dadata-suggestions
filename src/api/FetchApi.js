@@ -2,10 +2,11 @@ import Api from './Api';
 
 class FetchApi extends Api {
 
-  constructor(token, location = true) {
+  constructor(token, service, location = true) {
     super(token);
     this.headers = this.headersFactory();
-    if (location) {
+    this.endpoint = `${Api.apiUrl}/suggest/${service}`;
+    if (location && service.toLowerCase() === Api.ADDRESS) {
       this.detectAddress();
     }
   }
@@ -26,13 +27,12 @@ class FetchApi extends Api {
       .catch(() => null); // just die
   };
 
-  address = (query, count = 10) => {
-    const endpoint = `${Api.apiUrl}/suggest/address`;
+  suggestions = (query, count = 10) => {
     const body = {query, count};
     if (!!this.locations_boost.length) {
       body.locations_boost = this.locations_boost;
     }
-    const request = this.requestFactory(endpoint, 'POST', body);
+    const request = this.requestFactory(this.endpoint, 'POST', body);
     return fetch(request)
       .then(response => response.json())
       .then(response => response.suggestions);
