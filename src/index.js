@@ -24,28 +24,25 @@ class DadataSuggestions extends Component {
     showSuggestions: false
   };
 
-  fetchData = (query) => {
+  fetchData = async (query) => {
     this.setState({
       loading: true,
     });
 
-    this.api.address(query, this.props.count)
-      .then(response => response.json())
-      .then(response => response.suggestions)
-      .then(suggestions => {
-        this.setState({
-          suggestions: suggestions,
-          loading: false,
-          error: false,
-          showSuggestions: true,
-        })
-      })
-      .catch(e => {
-        console.warn(e);
-        this.setState({
-          error: true
-        })
-      })
+    try {
+      const suggestions = await this.api.address(query, this.props.count);
+      this.setState({
+        suggestions,
+        loading: false,
+        error: false,
+        showSuggestions: true,
+      });
+    } catch (e) {
+      console.warn(e);
+      this.setState({
+        error: true
+      });
+    }
   };
 
   onChange = (e) => {
@@ -165,7 +162,6 @@ DadataSuggestions.propTypes = {
   minChars: PropTypes.number.isRequired,
   geolocation: PropTypes.bool.isRequired,
   query: PropTypes.string.isRequired,
-
 
   //handlers:
   onSelect: PropTypes.func.isRequired,

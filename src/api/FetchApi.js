@@ -1,21 +1,21 @@
-class FetchApi {
+import Api from './Api';
 
-  static apiUrl = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs';
+class FetchApi extends Api {
 
   constructor(token, location = true) {
+    super(token);
     this.headers = new Headers({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': `Token ${token}`,
+      'Authorization': `Token ${this.token}`,
     });
-    this.locations_boost = [];
     if (location) {
       this.detectAddress();
     }
   }
 
   detectAddress = () => {
-    const endpoint = `${FetchApi.apiUrl}/detectAddressByIp`;
+    const endpoint = `${Api.apiUrl}/detectAddressByIp`;
     const request = new Request(endpoint, {
       method: 'GET',
       headers: this.headers
@@ -32,7 +32,7 @@ class FetchApi {
   };
 
   address = (query, count = 10) => {
-    const endpoint = `${FetchApi.apiUrl}/suggest/address`;
+    const endpoint = `${Api.apiUrl}/suggest/address`;
     const body = {query, count};
     if (!!this.locations_boost.length) {
       body.locations_boost = this.locations_boost;
@@ -42,7 +42,10 @@ class FetchApi {
       headers: this.headers,
       body: JSON.stringify(body)
     });
-    return fetch(request);
+
+    return fetch(request)
+      .then(response => response.json())
+      .then(response => response.suggestions);
   };
 
 }
