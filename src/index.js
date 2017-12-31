@@ -193,12 +193,12 @@ DadataSuggestions.propTypes = {
   selectedSuggestionFormatter: PropTypes.func,
 };
 DadataSuggestions.defaultProps = {
+  token: '',
   count: 10,
   //deferRequestBy: 300,
   minChars: 3,
   geolocation: true,
   hint: 'Выберите вариант ниже или продолжите ввод',
-  noSuggestionsHint: 'Неизвестный адрес',
   query: '',
   service: 'address',
 };
