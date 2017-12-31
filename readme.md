@@ -4,6 +4,11 @@ Just another one React component for [dadata suggestions](https://dadata.ru/sugg
 
 ## Getting started
 
+### Installation
+`npm i --save 'react-dadata-suggestions'`
+
+[page on npm](https://www.npmjs.com/package/react-dadata-suggestions) 
+
 ### Basic usage
 
 [![Edit p95804280q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/p95804280q)
@@ -32,25 +37,22 @@ export default App;
 ### Available props
 
 #### Options
-* `token` - string, api token, required
-* `count` - integer, limit for list of suggestions. Optional. Default value is `10`, maximum is `20`. 
-* `hint` - string, hint for user in suggestions list. Optional. Default value `Выберите вариант ниже или продолжите ввод`
-* `minChars` - integer, minimum length of query for requesting to api. Optional, default `3`
-* `geolocation` - boolean, priority to user city. Optional, default `true`. Works for address suggestions only.
-* `service` - string, optional, default value `address`, available values:
-  * `address`
-  * `bank`
-  * `fio`
-  * `party` - I don't know why, but api for searching of the companies is called "party"
-  * `email`
 
-* `suggestionsFormatter(suggestion)` - function, custom formatter for items in suggestions list. Optional.
-* `selectedSuggestionFormatter(suggestion)` - the same for selected suggestion (result will be placed in query string). Optional.
+| prop | type | description | required | default |
+|:--------------:|:----------------:|:-------------------:|:----------:|:--------:|
+|token| string|api token|**true**|`''`|
+|count|integer|maximal suggestions count in list|false|`10`|
+|hint|string|hint for user in suggestions list|false|`Выберите вариант ниже или продолжите ввод`|
+|minChars|integer|minimal length of query for requesting to api|false|`3`|
+|geolocation|boolean|priority to user city. Works for address suggestions only.|false|`true`|
+|service|string|available values: `address`, `bank`, `fio`, `email` and `party` (I don't know why, but api for searching of the companies is called "party")|false|`address`|
+|suggestionsFormatter (suggestion)|function|custom formatter for items in suggestions list|false||
+|selectedSuggestionFormatter (suggestion)|function|the same as previous for selected suggestion (result will be placed in query string)|false||
+|onSelect (suggestion)|function| be called when user select the address from suggestions|**true**||
+|onChange (query)|function|be called when user typing something in input field| false||
 
-#### Callbacks
-* `onSelect(suggestion)` - be called when user select the address from suggestions. **Required!**
-The structure of `suggestion` can be found in [official documentation](https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669107)
-* `onChange(query)` - be called when user typing something in input field. Optional.
+> The structure of `suggestion` object can be found in [official dadata api documentation](https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669100)
+
 
 ## License
 
