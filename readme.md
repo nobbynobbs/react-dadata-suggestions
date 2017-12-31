@@ -5,7 +5,7 @@ Just another one React component for [dadata suggestions](https://dadata.ru/sugg
 ## Getting started
 
 ### Installation
-`npm i --save 'react-dadata-suggestions'`
+`npm i --save react-dadata-suggestions`
 
 [page on npm](https://www.npmjs.com/package/react-dadata-suggestions) 
 
