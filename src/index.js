@@ -107,7 +107,7 @@ class DadataSuggestions extends Component {
 
   onSelect = (index) => () => {
     const selectedSuggestion = this.state.suggestions[index];
-    const query = selectedSuggestion.value;
+    const query = this.selectedSuggestionFormatter(selectedSuggestion);
 
     this.setState({
       selected: index,
@@ -117,6 +117,22 @@ class DadataSuggestions extends Component {
 
     const { onSelect } = this.props;
     onSelect(selectedSuggestion)
+  };
+
+  formatter = (suggestion, name) => {
+    const { [name]: customFormatter } = this.props;
+    if (customFormatter) {
+      return customFormatter(suggestion);
+    }
+    return suggestion.value;
+  };
+
+  suggestionsFormatter = (suggestion) => {
+    return this.formatter(suggestion, 'suggestionsFormatter')
+  };
+
+  selectedSuggestionFormatter = (suggestion) => {
+    return this.formatter(suggestion, 'selectedSuggestionFormatter')
   };
 
   makeListVisible = () => {
@@ -153,6 +169,7 @@ class DadataSuggestions extends Component {
           visible={ showSuggestions }
           onSelect={this.onSelect}
           selected={selected}
+          suggestionsFormatter={this.suggestionsFormatter}
         />
       </div>
     );
@@ -172,6 +189,8 @@ DadataSuggestions.propTypes = {
   //handlers:
   onSelect: PropTypes.func.isRequired,
   onChange: PropTypes.func,
+  suggestionsFormatter: PropTypes.func,
+  selectedSuggestionFormatter: PropTypes.func,
 };
 DadataSuggestions.defaultProps = {
   count: 10,
