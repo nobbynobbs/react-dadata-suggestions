@@ -38,11 +38,14 @@ export default App;
 * `minChars` - integer, minimum length of query for requesting to api. Optional, default `3`
 * `geolocation` - boolean, priority to user city. Optional, default `true`. Works for address suggestions only.
 * `service` - string, optional, default value `address`, available values:
-  * address
-  * bank
-  * fio
-  * party - I don't know why, but api for searching of the companies is called "party"
-  * email
+  * `address`
+  * `bank`
+  * `fio`
+  * `party` - I don't know why, but api for searching of the companies is called "party"
+  * `email`
+
+* `suggestionsFormatter(suggestion)` - function, custom formatter for items in suggestions list. Optional.
+* `selectedSuggestionFormatter(suggestion)` - the same for selected suggestion (result will be placed in query string). Optional.
 
 #### Callbacks
 * `onSelect(suggestion)` - be called when user select the address from suggestions. **Required!**
