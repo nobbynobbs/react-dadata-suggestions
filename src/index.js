@@ -11,8 +11,8 @@ class DadataSuggestions extends Component {
 
   constructor(props) {
     super(props);
-    const {token} = props;
-    this.api = new Api(token, props.geolocation);
+    const {token, service} = props;
+    this.api = new Api(token, service, props.geolocation);
   }
 
   state = {
@@ -29,7 +29,7 @@ class DadataSuggestions extends Component {
       loading: true,
     });
 
-    this.api.address(query, this.props.count)
+    this.api.suggestions(query, this.props.count)
       .then(suggestions => {
         this.setState({
           suggestions,
@@ -69,6 +69,10 @@ class DadataSuggestions extends Component {
   };
 
   handleKeyPress = (e) => {
+
+    if (e.shiftKey || e.ctrlKey || e.altKey) {
+      return;
+    }
 
     const arrowDownKey = 40, arrowUpKey = 38, enterKey = 13, escapeKey = 27, tabKey = 9;
 
@@ -163,10 +167,11 @@ DadataSuggestions.propTypes = {
   minChars: PropTypes.number.isRequired,
   geolocation: PropTypes.bool.isRequired,
   query: PropTypes.string.isRequired,
+  service: PropTypes.string.isRequired,
 
   //handlers:
   onSelect: PropTypes.func.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 DadataSuggestions.defaultProps = {
   count: 10,
@@ -175,7 +180,8 @@ DadataSuggestions.defaultProps = {
   geolocation: true,
   hint: 'Выберите вариант ниже или продолжите ввод',
   noSuggestionsHint: 'Неизвестный адрес',
-  query: ''
+  query: '',
+  service: 'address',
 };
 
 export default DadataSuggestions;
