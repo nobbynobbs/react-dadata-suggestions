@@ -12,7 +12,7 @@ const SuggestionsList = (props) => {
           <div className="suggestions-hint">{props.hint}</div>
           {suggestions.map((suggestion, index) =>
             <Suggestion
-              key={ suggestion.value }
+              key={ index }  /* @todo our planet needs something better than this */
               suggestion={ suggestion }
               index={index}
               selected={index===selected}
