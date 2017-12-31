@@ -15,23 +15,24 @@ class Suggestion extends Component {
     const selectedClass = selected || this.state.hover ? ' suggestions-selected' : '';
     return (
       <div
-        className={`suggestions-suggestion${selectedClass}`}
-        onMouseEnter={this.handleHover}
-        onMouseLeave={this.handleBlur}
-        onMouseDown={this.props.onSelect}
+        className={ `suggestions-suggestion${selectedClass}` }
+        onMouseEnter={ this.handleHover }
+        onMouseLeave={ this.handleBlur }
+        onMouseDown={ this.props.onSelect }
       >
-        {suggestion.value}
+        { this.props.formatter(suggestion) }
       </div>
     )
   };
 
   setHover = (hover) => {
-    this.setState({hover});
+    this.setState({ hover });
   };
 }
 
 Suggestion.propTypes = {
   selected: PropTypes.bool.isRequired,
+  formatter: PropTypes.func.isRequired,
 };
 Suggestion.defaultProps = {};
 
