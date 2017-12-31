@@ -14,9 +14,10 @@ const SuggestionsList = (props) => {
             <Suggestion
               key={ index }  /* @todo our planet needs something better than this */
               suggestion={ suggestion }
-              index={index}
-              selected={index===selected}
-              onSelect={props.onSelect(index)}
+              index={ index }
+              selected={ index===selected }
+              formatter={ props.suggestionsFormatter }
+              onSelect={ props.onSelect(index) }
             />)
           }
         </div>
@@ -30,6 +31,7 @@ SuggestionsList.propTypes = {
   suggestions: PropTypes.array.isRequired,
   hint: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
+  suggestionsFormatter: PropTypes.func.isRequired,
 };
 SuggestionsList.defaultProps = {
 };
