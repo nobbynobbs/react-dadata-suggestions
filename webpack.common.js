@@ -1,6 +1,5 @@
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const extractLess = new ExtractTextPlugin({
   filename: "styles.css",
@@ -14,7 +13,6 @@ module.exports = {
     filename: 'index.js',
     libraryTarget: 'commonjs2' // THIS IS THE MOST IMPORTANT LINE! :mindblow: I wasted more than 2 days until realize this was the line most important in all this guide.
   },
-  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
@@ -46,9 +44,6 @@ module.exports = {
     'react': 'commonjs react' // this line is just to use the React dependency of our parent-testing-project instead of using our own React.
   },
   plugins: [
-    extractLess,
-    new UglifyJSPlugin({
-      sourceMap: true
-    })
+    extractLess
   ]
 };
