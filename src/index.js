@@ -9,6 +9,8 @@ import Api from './api/FetchApi';
 
 class DadataSuggestions extends Component {
 
+  static shortTypes = ['аобл', 'респ', 'вл', 'г', 'гск', 'д', 'двлд', 'днп', 'дор', 'дп', 'жт', 'им', 'к', 'кв', 'кв-л', 'км', 'комн', 'кп', 'лпх', 'м',  'мкр', 'наб', 'нп', 'обл', 'оф', 'п', 'пгт', 'пер', 'пл', 'платф', 'рзд', 'рп', 'с', 'сл', 'снт', 'ст', 'стр', 'тер', 'туп', 'ул', 'х', 'ш'];
+
   constructor(props) {
     super(props);
     const {token, service} = props;
@@ -44,6 +46,11 @@ class DadataSuggestions extends Component {
           error: true
         });
       });
+  };
+
+  searchWords = () => {
+    const { query } = this.state;
+    return query.split(/\s+/).filter(word => !DadataSuggestions.shortTypes.includes(word));
   };
 
   onChange = (e) => {
@@ -170,6 +177,8 @@ class DadataSuggestions extends Component {
           onSelect={this.onSelect}
           selected={selected}
           suggestionsFormatter={this.suggestionsFormatter}
+          searchWords={ this.searchWords }
+          highlighting = { this.props.highlighting }
         />
       </div>
     );
@@ -185,6 +194,7 @@ DadataSuggestions.propTypes = {
   geolocation: PropTypes.bool.isRequired,
   query: PropTypes.string.isRequired,
   service: PropTypes.string.isRequired,
+  highlighting: PropTypes.bool.required,
 
   //handlers:
   onSelect: PropTypes.func.isRequired,
@@ -201,6 +211,7 @@ DadataSuggestions.defaultProps = {
   hint: 'Выберите вариант ниже или продолжите ввод',
   query: '',
   service: 'address',
+  highlighting: true
 };
 
 export default DadataSuggestions;
