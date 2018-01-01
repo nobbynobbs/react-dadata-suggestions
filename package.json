@@ -41,5 +41,7 @@
     "webpack-merge": "^4.1.1"
   },
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "react-highlight-words": "^0.10.0"
+  }
 }

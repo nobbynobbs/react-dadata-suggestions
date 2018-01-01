@@ -13,7 +13,7 @@ Just another one React component for [dadata suggestions](https://dadata.ru/sugg
 
 [![Edit p95804280q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/p95804280q)
 
-```
+```javascript
 import React, { Component } from 'react';
 import DadataSuggestions from 'react-dadata-suggestions';
 
@@ -46,6 +46,7 @@ export default App;
 |minChars|integer|minimal length of query for requesting to api|false|`3`|
 |geolocation|boolean|priority to user city. Works for address suggestions only.|false|`true`|
 |service|string|available values: `address`, `bank`, `fio`, `email` and `party` (I don't know why, but api for searching of the companies is called "party")|false|`address`|
+|highlighting|bool|highlight matched words in suggestions|false|true|
 |suggestionsFormatter (suggestion)|function|custom formatter for items in suggestions list|false||
 |selectedSuggestionFormatter (suggestion)|function|the same as previous for selected suggestion (result will be placed in query string)|false||
 |onSelect (suggestion)|function| be called when user select the address from suggestions|**true**||

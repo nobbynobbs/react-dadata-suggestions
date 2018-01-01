@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Highlighter from 'react-highlight-words';
 
 class Suggestion extends Component {
 
@@ -11,7 +12,7 @@ class Suggestion extends Component {
   handleBlur = () => this.setHover(false);
 
   render() {
-    const { selected, suggestion } = this.props;
+    const { selected, suggestion, highlighting } = this.props;
     const selectedClass = selected || this.state.hover ? ' suggestions-selected' : '';
     return (
       <div
@@ -20,7 +21,14 @@ class Suggestion extends Component {
         onMouseLeave={ this.handleBlur }
         onMouseDown={ this.props.onSelect }
       >
-        { this.props.formatter(suggestion) }
+      {
+        highlighting ? <Highlighter
+          //highlightClassName=''
+          searchWords={ this.props.searchWords }
+          autoEscape={ true }
+          textToHighlight={ this.props.formatter(suggestion) }
+          /> : this.props.formatter(suggestion)
+      }
       </div>
     )
   };
@@ -33,6 +41,8 @@ class Suggestion extends Component {
 Suggestion.propTypes = {
   selected: PropTypes.bool.isRequired,
   formatter: PropTypes.func.isRequired,
+  searchWords: PropTypes.array.isRequired,
+  highlighting: PropTypes.bool.isRequired,
 };
 Suggestion.defaultProps = {};
 

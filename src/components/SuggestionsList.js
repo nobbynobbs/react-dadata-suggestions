@@ -18,6 +18,8 @@ const SuggestionsList = (props) => {
               selected={ index===selected }
               formatter={ props.suggestionsFormatter }
               onSelect={ props.onSelect(index) }
+              searchWords = { props.highlighting ? props.searchWords() : [] }
+              highlighting = { props.highlighting }
             />)
           }
         </div>
@@ -32,6 +34,8 @@ SuggestionsList.propTypes = {
   hint: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
   suggestionsFormatter: PropTypes.func.isRequired,
+  searchWords: PropTypes.func.isRequired,
+  highlighting: PropTypes.bool.isRequired,
 };
 SuggestionsList.defaultProps = {
 };
