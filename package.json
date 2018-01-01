@@ -2,13 +2,16 @@
   "name": "react-dadata-suggestions",
   "version": "0.2.0",
   "description": "Just another one react component for dadata suggestions",
+  "keywords": [
+    "dadata", "suggestions", "reactjs", "react", "дадата", "подсказки"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/nobbynobbs/react-dadata-suggestions.git"
   },
   "main": "dist/index.js",
   "peerDependencies": {
-    "react": "^15.5.4||^16.2.0"
+    "react": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
