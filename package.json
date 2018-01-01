@@ -38,5 +38,7 @@
     "webpack": "^3.10.0"
   },
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "react-highlight-words": "^0.10.0"
+  }
 }
