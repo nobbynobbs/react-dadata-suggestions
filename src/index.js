@@ -6,15 +6,48 @@ import SuggestionsList from './components/SuggestionsList';
 import QueryInput from './components/QueryInput';
 
 import Api from './api/FetchApi';
+import { buildRequestBody } from "./api/helpers";
 
 class DadataSuggestions extends Component {
 
   static shortTypes = ['аобл', 'респ', 'вл', 'г', 'гск', 'д', 'двлд', 'днп', 'дор', 'дп', 'жт', 'им', 'к', 'кв', 'кв-л', 'км', 'комн', 'кп', 'лпх', 'м',  'мкр', 'наб', 'нп', 'обл', 'оф', 'п', 'пгт', 'пер', 'пл', 'платф', 'рзд', 'рп', 'с', 'сл', 'снт', 'ст', 'стр', 'тер', 'туп', 'ул', 'х', 'ш'];
 
+  static propTypes = {
+    token: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+    //deferRequestBy: PropTypes.number.isRequired, // doesn't work with fetch Api
+    hint: PropTypes.string.isRequired,
+    minChars: PropTypes.number.isRequired,
+    geolocation: PropTypes.bool.isRequired,
+    query: PropTypes.string.isRequired,
+    service: PropTypes.string.isRequired,
+    highlighting: PropTypes.bool.isRequired,
+    specialRequestOptions: PropTypes.object,
+
+    //handlers:
+    onSelect: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    onError: PropTypes.func,
+    suggestionsFormatter: PropTypes.func,
+    selectedSuggestionFormatter: PropTypes.func,
+  };
+
+  static defaultProps = {
+    token: '',
+    count: 10,
+    //deferRequestBy: 300,
+    minChars: 3,
+    geolocation: true,
+    hint: 'Выберите вариант ниже или продолжите ввод',
+    query: '',
+    service: 'address',
+    highlighting: true,
+  };
+
   constructor(props) {
     super(props);
-    const {token, service} = props;
-    this.api = new Api(token, service, props.geolocation);
+    const {token, service, geolocation} = props;
+    this.api = new Api(token, service, geolocation);
   }
 
   state = {
@@ -26,22 +59,12 @@ class DadataSuggestions extends Component {
     showSuggestions: false
   };
 
-  buildRequestBody = (query) => {
-    const specialOptions = this.props.specialRequestOptions || {};
-    const { count } = this.props;
-    return ({
-      query,
-      count,
-      ...specialOptions
-    });
-  };
-
   fetchData = (query) => {
     this.setState({
       loading: true,
     });
 
-    const requestBody = this.buildRequestBody(query);
+    const requestBody = buildRequestBody(query, this.props);
 
     this.api.suggestions(requestBody)
       .then(suggestions => {
@@ -207,36 +230,5 @@ class DadataSuggestions extends Component {
     );
   }
 }
-
-DadataSuggestions.propTypes = {
-  token: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
-  //deferRequestBy: PropTypes.number.isRequired, // doesn't work with fetch Api
-  hint: PropTypes.string.isRequired,
-  minChars: PropTypes.number.isRequired,
-  geolocation: PropTypes.bool.isRequired,
-  query: PropTypes.string.isRequired,
-  service: PropTypes.string.isRequired,
-  highlighting: PropTypes.bool.isRequired,
-  specialRequestOptions: PropTypes.object,
-
-  //handlers:
-  onSelect: PropTypes.func.isRequired,
-  onChange: PropTypes.func,
-  onError: PropTypes.func,
-  suggestionsFormatter: PropTypes.func,
-  selectedSuggestionFormatter: PropTypes.func,
-};
-DadataSuggestions.defaultProps = {
-  token: '',
-  count: 10,
-  //deferRequestBy: 300,
-  minChars: 3,
-  geolocation: true,
-  hint: 'Выберите вариант ниже или продолжите ввод',
-  query: '',
-  service: 'address',
-  highlighting: true,
-};
 
 export default DadataSuggestions;
