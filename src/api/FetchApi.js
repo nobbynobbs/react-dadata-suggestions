@@ -27,8 +27,7 @@ class FetchApi extends Api {
       .catch(() => null); // just die
   };
 
-  suggestions = (query, count = 10) => {
-    const body = {query, count};
+  suggestions = (body) => {
     if (!!this.locations_boost.length) {
       body.locations_boost = this.locations_boost;
     }
