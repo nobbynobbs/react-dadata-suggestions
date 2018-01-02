@@ -33,7 +33,12 @@ class FetchApi extends Api {
     }
     const request = this.requestFactory(this.endpoint, 'POST', body);
     return fetch(request)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+        return response.json();
+      })
       .then(response => response.suggestions);
   };
 
