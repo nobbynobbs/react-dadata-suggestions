@@ -1,10 +1,12 @@
 import Api from './Api';
+import { headersFactory, requestFactoryFactory } from './helpers';
 
 class FetchApi extends Api {
 
   constructor(token, service, location = true) {
     super(token);
-    this.headers = this.headersFactory();
+    this.headers = headersFactory(token);
+    this.requestFactory = requestFactoryFactory(this.headers);
     this.endpoint = `${Api.apiUrl}/suggest/${service}`;
     if (location && service.toLowerCase() === Api.ADDRESS) {
       this.detectAddress();
@@ -41,27 +43,6 @@ class FetchApi extends Api {
       })
       .then(response => response.suggestions);
   };
-
-  requestFactory = (endpoint, method, body = null) => {
-    const params = {
-      endpoint,
-      method,
-      headers: this.headers
-    };
-    if (body) {
-      params.body = JSON.stringify(body);
-    }
-    return new Request(endpoint, params);
-  };
-
-  headersFactory() {
-    return new Headers({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': `Token ${this.token}`,
-    });
-  };
-
 }
 
 export default FetchApi;
