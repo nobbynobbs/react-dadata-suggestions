@@ -43,7 +43,8 @@ class DadataSuggestions extends Component {
       .catch(e => {
         console.warn(e);
         this.setState({
-          error: true
+          error: true,
+          loading: false
         });
       });
   };
