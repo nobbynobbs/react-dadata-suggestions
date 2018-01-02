@@ -40,13 +40,7 @@ class DadataSuggestions extends Component {
           showSuggestions: true,
         });
       })
-      .catch(e => {
-        console.warn(e);
-        this.setState({
-          error: true,
-          loading: false
-        });
-      });
+      .catch(e => this.onError(e));
   };
 
   searchWords = () => {
@@ -73,6 +67,17 @@ class DadataSuggestions extends Component {
     const { onChange } = this.props;
     if (onChange) {
       onChange(query);
+    }
+  };
+
+  onError = (e) => {
+    this.setState({
+      error: true,
+      loading: false
+    });
+    const { onError } = this.props;
+    if (onError) {
+      onError(e);
     }
   };
 
@@ -200,6 +205,7 @@ DadataSuggestions.propTypes = {
   //handlers:
   onSelect: PropTypes.func.isRequired,
   onChange: PropTypes.func,
+  onError: PropTypes.func,
   suggestionsFormatter: PropTypes.func,
   selectedSuggestionFormatter: PropTypes.func,
 };
