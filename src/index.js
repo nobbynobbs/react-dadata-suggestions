@@ -26,12 +26,24 @@ class DadataSuggestions extends Component {
     showSuggestions: false
   };
 
+  buildRequestBody = (query) => {
+    const specialOptions = this.props.specialRequestOptions || {};
+    const { count } = this.props;
+    return ({
+      query,
+      count,
+      ...specialOptions
+    });
+  };
+
   fetchData = (query) => {
     this.setState({
       loading: true,
     });
 
-    this.api.suggestions(query, this.props.count)
+    const requestBody = this.buildRequestBody(query);
+
+    this.api.suggestions(requestBody)
       .then(suggestions => {
         this.setState({
           suggestions,
@@ -40,12 +52,7 @@ class DadataSuggestions extends Component {
           showSuggestions: true,
         });
       })
-      .catch(e => {
-        console.warn(e);
-        this.setState({
-          error: true
-        });
-      });
+      .catch(e => this.onError(e));
   };
 
   searchWords = () => {
@@ -72,6 +79,17 @@ class DadataSuggestions extends Component {
     const { onChange } = this.props;
     if (onChange) {
       onChange(query);
+    }
+  };
+
+  onError = (e) => {
+    this.setState({
+      error: true,
+      loading: false
+    });
+    const { onError } = this.props;
+    if (onError) {
+      onError(e);
     }
   };
 
@@ -194,11 +212,13 @@ DadataSuggestions.propTypes = {
   geolocation: PropTypes.bool.isRequired,
   query: PropTypes.string.isRequired,
   service: PropTypes.string.isRequired,
-  highlighting: PropTypes.bool.required,
+  highlighting: PropTypes.bool.isRequired,
+  specialRequestOptions: PropTypes.object,
 
   //handlers:
   onSelect: PropTypes.func.isRequired,
   onChange: PropTypes.func,
+  onError: PropTypes.func,
   suggestionsFormatter: PropTypes.func,
   selectedSuggestionFormatter: PropTypes.func,
 };
@@ -211,7 +231,7 @@ DadataSuggestions.defaultProps = {
   hint: 'Выберите вариант ниже или продолжите ввод',
   query: '',
   service: 'address',
-  highlighting: true
+  highlighting: true,
 };
 
 export default DadataSuggestions;

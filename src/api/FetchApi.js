@@ -27,14 +27,18 @@ class FetchApi extends Api {
       .catch(() => null); // just die
   };
 
-  suggestions = (query, count = 10) => {
-    const body = {query, count};
+  suggestions = (body) => {
     if (!!this.locations_boost.length) {
       body.locations_boost = this.locations_boost;
     }
     const request = this.requestFactory(this.endpoint, 'POST', body);
     return fetch(request)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText)
+        }
+        return response.json();
+      })
       .then(response => response.suggestions);
   };
 
