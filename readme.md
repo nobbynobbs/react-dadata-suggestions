@@ -49,6 +49,7 @@ export default App;
 |highlighting|bool|highlight matched words in suggestions|false|true|
 |suggestionsFormatter (suggestion)|function|custom formatter for items in suggestions list|false||
 |selectedSuggestionFormatter (suggestion)|function|the same as previous for selected suggestion (result will be placed in query string)|false||
+|specialRequestOptions|object|additional data for request body|false||
 |onSelect (suggestion)|function| be called when user select the address from suggestions|**true**||
 |onChange (query)|function|be called when user typing something in input field| false||
 |onError (error)|function|will be called if api request failed|false||
