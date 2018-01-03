@@ -9,10 +9,9 @@ import { handleKeyPress } from './handlers';
 
 import Api from './api/FetchApi';
 import { buildRequestBody } from "./api/helpers";
+import { SHORT_TYPES } from "./constants/index";
 
 class DadataSuggestions extends Component {
-
-  static shortTypes = ['аобл', 'респ', 'вл', 'г', 'гск', 'д', 'двлд', 'днп', 'дор', 'дп', 'жт', 'им', 'к', 'кв', 'кв-л', 'км', 'комн', 'кп', 'лпх', 'м',  'мкр', 'наб', 'нп', 'обл', 'оф', 'п', 'пгт', 'пер', 'пл', 'платф', 'рзд', 'рп', 'с', 'сл', 'снт', 'ст', 'стр', 'тер', 'туп', 'ул', 'х', 'ш'];
 
   static propTypes = {
     token: PropTypes.string.isRequired,
@@ -79,7 +78,7 @@ class DadataSuggestions extends Component {
           showSuggestions: true,
         });
       })
-      .catch(e => this.onError(e));
+      .catch(e => this.handleError(e));
   };
 
   searchWords = () => {
@@ -87,7 +86,7 @@ class DadataSuggestions extends Component {
     const searchWords = query.split(/\s+/);
     const { service } = this.props;
     if (service === Api.ADDRESS) {
-      return searchWords.filter(word => !DadataSuggestions.shortTypes.includes(word));
+      return searchWords.filter(word => !SHORT_TYPES.includes(word));
     }
     return searchWords;
   };
@@ -114,7 +113,7 @@ class DadataSuggestions extends Component {
     }
   };
 
-  onError = (e) => {
+  handleError = (e) => {
     this.setState({
       error: true,
       loading: false
