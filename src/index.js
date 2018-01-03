@@ -50,7 +50,6 @@ class DadataSuggestions extends Component {
     const {token, service, geolocation} = props;
     this.api = new Api(token, service, geolocation);
     this.handleKeyPress = handleKeyPress.bind(this);
-    console.log(this);
   }
 
   state = {
@@ -155,11 +154,11 @@ class DadataSuggestions extends Component {
   };
 
   makeListVisible = () => {
-    const { showSuggestions } = this.state;
+    const { showSuggestions, suggestions } = this.state;
     if (showSuggestions) {
       return
     }
-    this.setState({showSuggestions: true});
+    this.setState({showSuggestions: !!suggestions.length});
   };
 
   makeListInvisible = () => {
