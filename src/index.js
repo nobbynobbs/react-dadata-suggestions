@@ -5,16 +5,51 @@ import './styles/styles.less';
 import SuggestionsList from './components/SuggestionsList';
 import QueryInput from './components/QueryInput';
 
+import { handleKeyPress } from './handlers';
+
 import Api from './api/FetchApi';
+import { buildRequestBody } from "./api/helpers";
+import { SHORT_TYPES } from "./constants/index";
 
 class DadataSuggestions extends Component {
 
-  static shortTypes = ['аобл', 'респ', 'вл', 'г', 'гск', 'д', 'двлд', 'днп', 'дор', 'дп', 'жт', 'им', 'к', 'кв', 'кв-л', 'км', 'комн', 'кп', 'лпх', 'м',  'мкр', 'наб', 'нп', 'обл', 'оф', 'п', 'пгт', 'пер', 'пл', 'платф', 'рзд', 'рп', 'с', 'сл', 'снт', 'ст', 'стр', 'тер', 'туп', 'ул', 'х', 'ш'];
+  static propTypes = {
+    token: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+    //deferRequestBy: PropTypes.number.isRequired, // doesn't work with fetch Api
+    hint: PropTypes.string.isRequired,
+    minChars: PropTypes.number.isRequired,
+    geolocation: PropTypes.bool.isRequired,
+    query: PropTypes.string.isRequired,
+    service: PropTypes.string.isRequired,
+    highlighting: PropTypes.bool.isRequired,
+    specialRequestOptions: PropTypes.object,
+
+    //handlers:
+    onSelect: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    onError: PropTypes.func,
+    suggestionsFormatter: PropTypes.func,
+    selectedSuggestionFormatter: PropTypes.func,
+  };
+
+  static defaultProps = {
+    token: '',
+    count: 10,
+    //deferRequestBy: 300,
+    minChars: 3,
+    geolocation: true,
+    hint: 'Выберите вариант ниже или продолжите ввод',
+    query: '',
+    service: 'address',
+    highlighting: true,
+  };
 
   constructor(props) {
     super(props);
-    const {token, service} = props;
-    this.api = new Api(token, service, props.geolocation);
+    const {token, service, geolocation} = props;
+    this.api = new Api(token, service, geolocation);
+    this.handleKeyPress = handleKeyPress.bind(this);
   }
 
   state = {
@@ -26,22 +61,12 @@ class DadataSuggestions extends Component {
     showSuggestions: false
   };
 
-  buildRequestBody = (query) => {
-    const specialOptions = this.props.specialRequestOptions || {};
-    const { count } = this.props;
-    return ({
-      query,
-      count,
-      ...specialOptions
-    });
-  };
-
   fetchData = (query) => {
     this.setState({
       loading: true,
     });
 
-    const requestBody = this.buildRequestBody(query);
+    const requestBody = buildRequestBody(query, this.props);
 
     this.api.suggestions(requestBody)
       .then(suggestions => {
@@ -52,15 +77,20 @@ class DadataSuggestions extends Component {
           showSuggestions: true,
         });
       })
-      .catch(e => this.onError(e));
+      .catch(e => this.handleError(e));
   };
 
   searchWords = () => {
     const { query } = this.state;
-    return query.split(/\s+/).filter(word => !DadataSuggestions.shortTypes.includes(word));
+    const searchWords = query.split(/\s+/);
+    const { service } = this.props;
+    if (service === Api.ADDRESS) {
+      return searchWords.filter(word => !SHORT_TYPES.includes(word));
+    }
+    return searchWords;
   };
 
-  onChange = (e) => {
+  handleChange = (e) => {
     const query = e.target.value;
     this.setState({
       query,
@@ -82,7 +112,7 @@ class DadataSuggestions extends Component {
     }
   };
 
-  onError = (e) => {
+  handleError = (e) => {
     this.setState({
       error: true,
       loading: false
@@ -93,44 +123,7 @@ class DadataSuggestions extends Component {
     }
   };
 
-  handleKeyPress = (e) => {
-
-    if (e.shiftKey || e.ctrlKey || e.altKey) {
-      return;
-    }
-
-    const arrowDownKey = 40, arrowUpKey = 38, enterKey = 13, escapeKey = 27, tabKey = 9;
-
-    if ([arrowDownKey, arrowUpKey, enterKey, escapeKey, tabKey].includes(e.which)) {
-      e.preventDefault();
-
-      const { selected, suggestions } = this.state;
-      const maxSuggestionIndex = suggestions.length - 1;
-
-      if (maxSuggestionIndex === -1) {
-        return;
-      }
-
-      if (e.which === arrowUpKey) {
-        this.setState({
-          selected: selected > 0 ? selected - 1 : maxSuggestionIndex
-        });
-      }
-      if (e.which === arrowDownKey) {
-        this.setState({
-          selected: selected < maxSuggestionIndex ? selected + 1 : 0
-        });
-      }
-      if ((e.which === enterKey || e.which === tabKey) && selected !== -1) {
-        this.onSelect(selected)();
-      }
-      if (e.which === escapeKey) {
-        this.makeListInvisible();
-      }
-    }
-  };
-
-  onSelect = (index) => () => {
+  handleSelect = (index) => () => {
     const selectedSuggestion = this.state.suggestions[index];
     const query = this.selectedSuggestionFormatter(selectedSuggestion);
 
@@ -161,11 +154,11 @@ class DadataSuggestions extends Component {
   };
 
   makeListVisible = () => {
-    const { showSuggestions } = this.state;
+    const { showSuggestions, suggestions } = this.state;
     if (showSuggestions) {
       return
     }
-    this.setState({showSuggestions: true});
+    this.setState({showSuggestions: !!suggestions.length});
   };
 
   makeListInvisible = () => {
@@ -181,7 +174,7 @@ class DadataSuggestions extends Component {
     return (
       <div className="suggestions-container">
         <QueryInput
-          onChange={ this.onChange }
+          onChange={ this.handleChange }
           loading={ loading }
           query={ query }
           onMouseDown={ this.makeListVisible }
@@ -192,7 +185,7 @@ class DadataSuggestions extends Component {
           suggestions={ suggestions }
           hint={ this.props.hint }
           visible={ showSuggestions }
-          onSelect={this.onSelect}
+          onSelect={this.handleSelect}
           selected={selected}
           suggestionsFormatter={this.suggestionsFormatter}
           searchWords={ this.searchWords }
@@ -202,36 +195,5 @@ class DadataSuggestions extends Component {
     );
   }
 }
-
-DadataSuggestions.propTypes = {
-  token: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
-  //deferRequestBy: PropTypes.number.isRequired, // doesn't work with fetch Api
-  hint: PropTypes.string.isRequired,
-  minChars: PropTypes.number.isRequired,
-  geolocation: PropTypes.bool.isRequired,
-  query: PropTypes.string.isRequired,
-  service: PropTypes.string.isRequired,
-  highlighting: PropTypes.bool.isRequired,
-  specialRequestOptions: PropTypes.object,
-
-  //handlers:
-  onSelect: PropTypes.func.isRequired,
-  onChange: PropTypes.func,
-  onError: PropTypes.func,
-  suggestionsFormatter: PropTypes.func,
-  selectedSuggestionFormatter: PropTypes.func,
-};
-DadataSuggestions.defaultProps = {
-  token: '',
-  count: 10,
-  //deferRequestBy: 300,
-  minChars: 3,
-  geolocation: true,
-  hint: 'Выберите вариант ниже или продолжите ввод',
-  query: '',
-  service: 'address',
-  highlighting: true,
-};
 
 export default DadataSuggestions;
