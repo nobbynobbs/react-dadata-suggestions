@@ -19,7 +19,7 @@ class Suggestion extends Component {
         className={ `suggestions-suggestion${selectedClass}` }
         onMouseEnter={ this.handleHover }
         onMouseLeave={ this.handleBlur }
-        onMouseDown={ this.props.handleSelect }
+        onMouseDown={ this.props.onSelect }
       >
       {
         highlighting ? <Highlighter
