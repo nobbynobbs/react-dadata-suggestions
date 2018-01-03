@@ -91,7 +91,7 @@ class DadataSuggestions extends Component {
     return searchWords;
   };
 
-  onChange = (e) => {
+  handleChange = (e) => {
     const query = e.target.value;
     this.setState({
       query,
@@ -124,7 +124,7 @@ class DadataSuggestions extends Component {
     }
   };
 
-  onSelect = (index) => () => {
+  handleSelect = (index) => () => {
     const selectedSuggestion = this.state.suggestions[index];
     const query = this.selectedSuggestionFormatter(selectedSuggestion);
 
@@ -175,7 +175,7 @@ class DadataSuggestions extends Component {
     return (
       <div>
         <QueryInput
-          onChange={ this.onChange }
+          onChange={ this.handleChange }
           loading={ loading }
           query={ query }
           onMouseDown={ this.makeListVisible }
@@ -186,7 +186,7 @@ class DadataSuggestions extends Component {
           suggestions={ suggestions }
           hint={ this.props.hint }
           visible={ showSuggestions }
-          onSelect={this.onSelect}
+          onSelect={this.handleSelect}
           selected={selected}
           suggestionsFormatter={this.suggestionsFormatter}
           searchWords={ this.searchWords }

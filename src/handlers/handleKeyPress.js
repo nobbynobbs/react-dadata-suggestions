@@ -27,7 +27,7 @@ function handleKeyPress(e) {
       });
     }
     if ((e.which === enterKey || e.which === tabKey) && selected !== -1) {
-      this.onSelect(selected)();
+      this.handleSelect(selected)();
     }
     if (e.which === escapeKey) {
       this.makeListInvisible();
