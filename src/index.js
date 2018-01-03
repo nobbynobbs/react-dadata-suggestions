@@ -103,6 +103,7 @@ class DadataSuggestions extends Component {
     } else {
       this.setState({
         suggestions: [],
+        showSuggestions: false
       });
     }
 
