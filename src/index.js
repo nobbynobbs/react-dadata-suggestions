@@ -179,7 +179,7 @@ class DadataSuggestions extends Component {
   render() {
     const {loading, query, showSuggestions, suggestions, selected} = this.state;
     return (
-      <div>
+      <div className="suggestions-container">
         <QueryInput
           onChange={ this.onChange }
           loading={ loading }
