@@ -14,6 +14,7 @@ const QueryInput = (props) => {
         onKeyPress={ props.onKeyPress }
         onKeyDown={ props.onKeyPress }
         onBlur={ props.onBlur }
+        onFocus={ props.onFocus }
       />
     );
 };
