@@ -86,7 +86,7 @@ class DadataSuggestions extends Component {
 
   searchWords = () => {
     const { query } = this.state;
-    const searchWords = query.split(/\s+/);
+    const searchWords = query.split(/[^-А-Яа-яЁё]+/);
     const { service } = this.props;
     if (service === Api.ADDRESS) {
       return searchWords.filter(word => !SHORT_TYPES.includes(word));
