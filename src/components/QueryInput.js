@@ -7,18 +7,21 @@ const QueryInput = (props) => {
     return (
       <input
         type="text"
-        className={className}
-        onChange={props.onChange}
-        value={props.query}
-        onMouseDown={props.onMouseDown}
-        onKeyPress={props.onKeyPress}
-        onKeyDown={props.onKeyPress}
+        className={ className }
+        onChange={ props.onChange }
+        value={ props.query }
+        onMouseDown={ props.onMouseDown }
+        onKeyPress={ props.onKeyPress }
+        onKeyDown={ props.onKeyPress }
+        onBlur={ props.onBlur }
+        onFocus={ props.onFocus }
       />
     );
 };
 
 QueryInput.propTypes = {
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
   onMouseDown: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,

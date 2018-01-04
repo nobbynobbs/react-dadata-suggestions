@@ -29,6 +29,7 @@ class DadataSuggestions extends Component {
     onSelect: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     onError: PropTypes.func,
+    onBlur: PropTypes.func,
     suggestionsFormatter: PropTypes.func,
     selectedSuggestionFormatter: PropTypes.func,
   };
@@ -57,6 +58,7 @@ class DadataSuggestions extends Component {
     suggestions: [],
     selected: -1,
     loading: false,
+    success: false,
     error: false,
     showSuggestions: false
   };
@@ -64,6 +66,7 @@ class DadataSuggestions extends Component {
   fetchData = (query) => {
     this.setState({
       loading: true,
+      success: false,
     });
 
     const requestBody = buildRequestBody(query, this.props);
@@ -74,6 +77,7 @@ class DadataSuggestions extends Component {
           suggestions,
           loading: false,
           error: false,
+          success: true,
           showSuggestions: true,
         });
       })
@@ -97,13 +101,14 @@ class DadataSuggestions extends Component {
       selected: -1
     });
 
-    const {minChars} = this.props;
+    const { minChars } = this.props;
     if (query.length >= minChars) {
       this.fetchData(query);
     } else {
       this.setState({
         suggestions: [],
-        showSuggestions: false
+        showSuggestions: false,
+        success: false,
       });
     }
 
@@ -113,10 +118,18 @@ class DadataSuggestions extends Component {
     }
   };
 
+  handleBlur = () => {
+    const { onBlur } = this.props;
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   handleError = (e) => {
     this.setState({
       error: true,
-      loading: false
+      loading: false,
+      success: false,
     });
     const { onError } = this.props;
     if (onError) {
@@ -162,6 +175,17 @@ class DadataSuggestions extends Component {
     this.setState({showSuggestions: !!suggestions.length});
   };
 
+  handleFocus = () => {
+    const { query, success, suggestions, selected } = this.state;
+    const { minChars } = this.props;
+
+    if (!!suggestions.length && selected === -1) {
+      this.makeListVisible();
+    } else if (query.length >= minChars && !success ) {
+      this.fetchData(query);
+    }
+  };
+
   makeListInvisible = () => {
     const { showSuggestions } = this.state;
     if (!showSuggestions) {
@@ -180,6 +204,8 @@ class DadataSuggestions extends Component {
           query={ query }
           onMouseDown={ this.makeListVisible }
           onKeyPress={ this.handleKeyPress }
+          onBlur={ this.handleBlur }
+          onFocus={ this.handleFocus }
         />
 
         <SuggestionsList
