@@ -53,6 +53,7 @@ export default App;
 |onSelect (suggestion)|function|обработчик выполняемый при выборе подсказки|**true**||
 |onChange (query)|function|обработчик, выполяемый при редактировании запроса|false||
 |onError (error)|function|обработчик, выполняемый если при обращении к апи произошла ошибка|false||
+|onBlur|function|выполняется при уходе фокуса с инпута|false||
 
 > Описание объектов `suggestion` для каждого типа подсказок можно найти в [официальной документации дадаты](https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669100)
 

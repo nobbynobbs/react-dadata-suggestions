@@ -29,6 +29,7 @@ class DadataSuggestions extends Component {
     onSelect: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     onError: PropTypes.func,
+    onBlur: PropTypes.func,
     suggestionsFormatter: PropTypes.func,
     selectedSuggestionFormatter: PropTypes.func,
   };
@@ -113,6 +114,13 @@ class DadataSuggestions extends Component {
     }
   };
 
+  handleBlur = () => {
+    const { onBlur } = this.props;
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   handleError = (e) => {
     this.setState({
       error: true,
@@ -180,6 +188,7 @@ class DadataSuggestions extends Component {
           query={ query }
           onMouseDown={ this.makeListVisible }
           onKeyPress={ this.handleKeyPress }
+          onBlur={ this.handleBlur }
         />
 
         <SuggestionsList
