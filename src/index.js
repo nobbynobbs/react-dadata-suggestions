@@ -176,12 +176,12 @@ class DadataSuggestions extends Component {
   };
 
   handleFocus = () => {
-    const { query, success, suggestions, selected } = this.state;
+    const { query, success, suggestions, selected, error } = this.state;
     const { minChars } = this.props;
 
     if (!!suggestions.length && selected === -1) {
       this.makeListVisible();
-    } else if (query.length >= minChars && !success ) {
+    } else if (query.length >= minChars && !success && !error) {
       this.fetchData(query);
     }
   };
