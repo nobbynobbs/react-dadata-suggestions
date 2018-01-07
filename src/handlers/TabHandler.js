@@ -1,6 +1,6 @@
 import { EnterHandler } from "./index"
 
-function handleTab(e, context) {
+function TabHandler(e, context) {
 
   const KEY_CODE = 9;
   const handle = () => {
@@ -17,4 +17,4 @@ function handleTab(e, context) {
   }
 }
 
-export default handleTab;
+export default TabHandler;

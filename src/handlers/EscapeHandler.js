@@ -1,4 +1,4 @@
-function handleEscape(e, context) {
+function EscapeHandler(e, context) {
   const KEY_CODE = 27;
   const handle = () => {
     e.preventDefault();
@@ -10,4 +10,4 @@ function handleEscape(e, context) {
   }
 }
 
-export default handleEscape;
+export default EscapeHandler;

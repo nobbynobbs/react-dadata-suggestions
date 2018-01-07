@@ -1,22 +1,13 @@
-function handleArrowDown(e, context) {
-
-  const KEY_CODE = 40;
-
+function ArrowUpHandler(e, context) {
+  const KEY_CODE = 38;
   const handle = () => {
     e.preventDefault();
     const {selected, suggestions, showSuggestions} = context.state;
-
-    if (!showSuggestions && !!suggestions.length) {
-      context.makeListVisible();
-      return;
-    }
-
     if (!showSuggestions) {
       return;
     }
-
     const maxSuggestionIndex = suggestions.length - 1;
-    const newSelected = selected < maxSuggestionIndex ? selected + 1 : 0;
+    const newSelected = selected > 0 ? selected - 1 : maxSuggestionIndex;
     context.selectSuggestion(newSelected);
   };
 
@@ -26,4 +17,4 @@ function handleArrowDown(e, context) {
   }
 }
 
-export default handleArrowDown;
+export default ArrowUpHandler;

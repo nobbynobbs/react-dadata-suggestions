@@ -1,6 +1,6 @@
-import { handleEnter } from "./index"
+import { EnterHandler } from "./index"
 
-function handleSpace(e, context) {
+function SpaceHandler(e, context) {
   const KEY_CODE = 32;
   const handle = () => {
     const {selected, showSuggestions} = context.state;
@@ -8,7 +8,8 @@ function handleSpace(e, context) {
       e.preventDefault();
       const {showSuggestions} = context.state;
       if (showSuggestions) {
-        handleEnter(e, context);
+        const enterHandler = new EnterHandler(e, context);
+        enterHandler.handle();
       }
     }
   };
@@ -20,4 +21,4 @@ function handleSpace(e, context) {
 
 }
 
-export default handleSpace;
+export default SpaceHandler;

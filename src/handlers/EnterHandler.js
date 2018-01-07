@@ -1,4 +1,4 @@
-function handleEnter(e, context) {
+function EnterHandler(e, context) {
 
   const KEY_CODE = 13;
 
@@ -17,4 +17,4 @@ function handleEnter(e, context) {
   }
 }
 
-export default handleEnter;
+export default EnterHandler;
