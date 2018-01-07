@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Highlighter from 'react-highlight-words';
 
-const SuggestionValue = ({highlighting, suggestion, searchWords, formatter}) => {
+const SuggestionValue = ({highlighting, searchWords, value}) => {
   return (
     <span className="suggestions-value">
       {
@@ -10,8 +10,8 @@ const SuggestionValue = ({highlighting, suggestion, searchWords, formatter}) => 
           //highlightClassName=''
           searchWords={ searchWords }
           autoEscape={ true }
-          textToHighlight={ formatter(suggestion) }
-        /> : formatter(suggestion)
+          textToHighlight={ value }
+        /> : value
       }
     </span>
   );
@@ -19,9 +19,8 @@ const SuggestionValue = ({highlighting, suggestion, searchWords, formatter}) => 
 
 SuggestionValue.propTypes = {
   highlighting: PropTypes.bool.isRequired,
-  suggestion: PropTypes.object.isRequired,
   searchWords: PropTypes.array,
-  formatter: PropTypes.func,
+  value: PropTypes.string.isRequired,
 };
 SuggestionValue.defaultProps = {
   highlighting: true,

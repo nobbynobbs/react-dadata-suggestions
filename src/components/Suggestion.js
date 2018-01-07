@@ -13,7 +13,7 @@ class Suggestion extends Component {
   handleBlur = () => this.setHover(false);
 
   render() {
-    const { selected, suggestion, highlighting, searchWords, formatter } = this.props;
+    const { selected, highlighting, searchWords, subtext, value } = this.props;
     const selectedClass = selected || this.state.hover ? ' suggestions-selected' : '';
     return (
       <div
@@ -23,9 +23,9 @@ class Suggestion extends Component {
         onMouseDown={ this.props.onSelect }
       >
         <SuggestionValue
-          {...{ suggestion, highlighting, searchWords, formatter }}
+          {...{ highlighting, searchWords, value }}
         />
-        <SuggestionSubtext></SuggestionSubtext>
+        <SuggestionSubtext>{ subtext }</SuggestionSubtext>
       </div>
     )
   };
@@ -37,7 +37,7 @@ class Suggestion extends Component {
 
 Suggestion.propTypes = {
   selected: PropTypes.bool.isRequired,
-  formatter: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
   searchWords: PropTypes.array.isRequired,
   highlighting: PropTypes.bool.isRequired,
 };
