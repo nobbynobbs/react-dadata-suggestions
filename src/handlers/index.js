@@ -4,4 +4,3 @@ export { default as EnterHandler } from './EnterHandler';
 export { default as EscapeHandler } from './EscapeHandler';
 export { default as ArrowUpHandler } from './ArrowUpHandler';
 export { default as ArrowDownHandler } from './ArrowDownHandler';
-export { default as SpaceHandler } from './SpaceHandler';

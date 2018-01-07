@@ -4,7 +4,6 @@ import {
   EscapeHandler,
   ArrowUpHandler,
   ArrowDownHandler,
-  SpaceHandler,
 } from "./index";
 
 function handleKeyPress(e) {
@@ -19,7 +18,6 @@ function handleKeyPress(e) {
     new EnterHandler(e, this),
     new TabHandler(e, this),
     new EscapeHandler(e, this),
-    new SpaceHandler(e, this),
   ];
 
   handlers.map(handler => {
