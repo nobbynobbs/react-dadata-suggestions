@@ -119,6 +119,7 @@ class DadataSuggestions extends Component {
   };
 
   handleBlur = () => {
+    this.makeListInvisible();
     const { onBlur } = this.props;
     if (onBlur) {
       onBlur();
