@@ -13,13 +13,13 @@ const SuggestionsList = (props) => {
           {suggestions.map((suggestion, index) =>
             <Suggestion
               key={ index }  /* @todo our planet needs something better than this */
-              suggestion={ suggestion }
               index={ index }
-              selected={ index===selected }
-              formatter={ props.suggestionsFormatter }
+              selected={ index === selected }
               onSelect={ props.onSelect(index) }
               searchWords = { props.highlighting ? props.searchWords() : [] }
               highlighting = { props.highlighting }
+              value = { props.suggestionsFormatter(suggestion) }
+              subtext = { props.subtextFormatter(suggestion) }
             />)
           }
         </div>
@@ -34,6 +34,7 @@ SuggestionsList.propTypes = {
   hint: PropTypes.string.isRequired,
   visible: PropTypes.bool.isRequired,
   suggestionsFormatter: PropTypes.func.isRequired,
+  subtextFormatter: PropTypes.func.isRequired,
   searchWords: PropTypes.func.isRequired,
   highlighting: PropTypes.bool.isRequired,
 };

@@ -1,9 +1,9 @@
 import {
-  handleEnter,
-  handleTab,
-  handleEscape,
-  handleArrowUp,
-  handleArrowDown,
+  EnterHandler,
+  TabHandler,
+  EscapeHandler,
+  ArrowUpHandler,
+  ArrowDownHandler,
 } from "./index";
 
 function handleKeyPress(e) {
@@ -12,28 +12,20 @@ function handleKeyPress(e) {
     return;
   }
 
-  const arrowDownKey = 40, arrowUpKey = 38, enterKey = 13, escapeKey = 27, tabKey = 9;
+  const handlers = [
+    new ArrowUpHandler(e, this),
+    new ArrowDownHandler(e, this),
+    new EnterHandler(e, this),
+    new TabHandler(e, this),
+    new EscapeHandler(e, this),
+  ];
 
-  if ([arrowDownKey, arrowUpKey, enterKey, escapeKey, tabKey].includes(e.which)) {
-
-    switch (e.which) {
-      case arrowUpKey:
-        handleArrowUp(e, this);
-        break;
-      case arrowDownKey:
-        handleArrowDown(e, this);
-        break;
-      case enterKey:
-        handleEnter(e, this);
-        break;
-      case tabKey:
-        handleTab(e, this);
-        break;
-      case escapeKey:
-        handleEscape(e, this);
-        break;
+  handlers.map(handler => {
+    if (handler.KEY_CODE === e.which) {
+      handler.handle();
     }
-  }
+  });
+
 }
 
 export default handleKeyPress;

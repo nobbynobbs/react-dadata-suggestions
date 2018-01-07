@@ -86,7 +86,7 @@ class DadataSuggestions extends Component {
 
   searchWords = () => {
     const { query } = this.state;
-    const searchWords = query.split(/[^-А-Яа-яЁё]+/);
+    const searchWords = query.split(/[^-А-Яа-яЁё\d\w]+/);
     const { service } = this.props;
     if (service === Api.ADDRESS) {
       return searchWords.filter(word => !SHORT_TYPES.includes(word));
@@ -119,6 +119,7 @@ class DadataSuggestions extends Component {
   };
 
   handleBlur = () => {
+    this.makeListInvisible();
     const { onBlur } = this.props;
     if (onBlur) {
       onBlur();
@@ -137,16 +138,23 @@ class DadataSuggestions extends Component {
     }
   };
 
-  handleSelect = (index) => () => {
-    const selectedSuggestion = this.state.suggestions[index];
-    const query = this.selectedSuggestionFormatter(selectedSuggestion);
-
-    this.setState({
-      selected: index,
-      showSuggestions: false,
-      query
+  selectSuggestion = (index) => {
+    this.setState(({suggestions}) => {
+      const selectedSuggestion = suggestions[index];
+      const query = this.selectedSuggestionFormatter(selectedSuggestion);
+      return {
+        selected: index,
+        query
+      }
     });
+  };
 
+  handleSelect = (index) => () => {
+    const { selected } = this.state;
+    if (index !== selected) {
+      this.selectSuggestion(index);
+    }
+    const selectedSuggestion = this.state.suggestions[index];
     const { onSelect } = this.props;
     onSelect(selectedSuggestion)
   };
@@ -165,6 +173,14 @@ class DadataSuggestions extends Component {
 
   selectedSuggestionFormatter = (suggestion) => {
     return this.formatter(suggestion, 'selectedSuggestionFormatter')
+  };
+
+  subtextFormatter = (suggestion) => {
+    const { service } = this.props;
+    if (service === 'party') {
+      return `ИНН ${suggestion.data.inn}`;
+    }
+    return null;
   };
 
   makeListVisible = () => {
@@ -217,6 +233,7 @@ class DadataSuggestions extends Component {
           suggestionsFormatter={this.suggestionsFormatter}
           searchWords={ this.searchWords }
           highlighting = { this.props.highlighting }
+          subtextFormatter = { this.subtextFormatter }
         />
       </div>
     );
