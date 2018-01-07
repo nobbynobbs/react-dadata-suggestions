@@ -3,6 +3,7 @@ function handleEnter(e, context) {
   e.preventDefault();
   if (selected !== -1) {
     context.handleSelect(selected)();
+    context.makeListInvisible();
   }
 }
 

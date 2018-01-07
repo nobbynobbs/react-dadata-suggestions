@@ -5,9 +5,9 @@ function handleArrowUp(e, context){
     return;
   }
   const maxSuggestionIndex = suggestions.length - 1;
-  context.setState({
-    selected: selected > 0 ? selected - 1 : maxSuggestionIndex
-  });
+  const newSelected = selected > 0 ? selected - 1 : maxSuggestionIndex;
+  context.selectSuggestion(newSelected);
+
 }
 
 export default handleArrowUp;
