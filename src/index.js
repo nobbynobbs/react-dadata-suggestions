@@ -175,6 +175,14 @@ class DadataSuggestions extends Component {
     return this.formatter(suggestion, 'selectedSuggestionFormatter')
   };
 
+  subtextFormatter = (suggestion) => {
+    const { service } = this.props;
+    if (service === 'party') {
+      return `ИНН ${suggestion.data.inn}`;
+    }
+    return null;
+  };
+
   makeListVisible = () => {
     const { showSuggestions, suggestions } = this.state;
     if (showSuggestions) {
@@ -225,6 +233,7 @@ class DadataSuggestions extends Component {
           suggestionsFormatter={this.suggestionsFormatter}
           searchWords={ this.searchWords }
           highlighting = { this.props.highlighting }
+          subtextFormatter = { this.subtextFormatter }
         />
       </div>
     );
