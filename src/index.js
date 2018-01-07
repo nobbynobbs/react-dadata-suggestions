@@ -138,16 +138,23 @@ class DadataSuggestions extends Component {
     }
   };
 
-  handleSelect = (index) => () => {
-    const selectedSuggestion = this.state.suggestions[index];
-    const query = this.selectedSuggestionFormatter(selectedSuggestion);
-
-    this.setState({
-      selected: index,
-      showSuggestions: false,
-      query
+  selectSuggestion = (index) => {
+    this.setState(({suggestions}) => {
+      const selectedSuggestion = suggestions[index];
+      const query = this.selectedSuggestionFormatter(selectedSuggestion);
+      return {
+        selected: index,
+        query
+      }
     });
+  };
 
+  handleSelect = (index) => () => {
+    const { selected } = this.state;
+    if (index !== selected) {
+      this.selectSuggestion(index);
+    }
+    const selectedSuggestion = this.state.suggestions[index];
     const { onSelect } = this.props;
     onSelect(selectedSuggestion)
   };

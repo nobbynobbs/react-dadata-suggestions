@@ -12,9 +12,8 @@ function handleArrowDown(e, context){
   }
 
   const maxSuggestionIndex = suggestions.length - 1;
-  context.setState({
-    selected: selected < maxSuggestionIndex ? selected + 1 : 0
-  });
+  const newSelected = selected < maxSuggestionIndex ? selected + 1 : 0;
+  context.selectSuggestion(newSelected);
 }
 
 export default handleArrowDown;
