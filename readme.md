@@ -42,6 +42,7 @@ export default App;
 |:--------------:|:----------------:|:-------------------:|:----------:|:--------:|
 |token| string|api token|**true**|`''`|
 |count|integer|maximal suggestions count in list|false|`10`|
+|placeholder|string| |false|`''`|
 |hint|string|hint for user in suggestions list|false|`Выберите вариант ниже или продолжите ввод`|
 |minChars|integer|minimal length of query for requesting to api|false|`3`|
 |geolocation|boolean|priority to user city. Works for address suggestions only.|false|`true`|

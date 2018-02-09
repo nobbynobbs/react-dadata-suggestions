@@ -24,6 +24,7 @@ class DadataSuggestions extends Component {
     service: PropTypes.string.isRequired,
     highlighting: PropTypes.bool.isRequired,
     specialRequestOptions: PropTypes.object,
+    placeholder: PropTypes.string,
 
     //handlers:
     onSelect: PropTypes.func.isRequired,
@@ -216,6 +217,7 @@ class DadataSuggestions extends Component {
       <div className="suggestions-container">
         <QueryInput
           onChange={ this.handleChange }
+          placeholder={ this.props.placeholder }
           loading={ loading }
           query={ query }
           onMouseDown={ this.makeListVisible }

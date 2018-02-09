@@ -8,6 +8,7 @@ const QueryInput = (props) => {
       <input
         type="text"
         className={ className }
+        placeholder = { props.placeholder }
         onChange={ props.onChange }
         value={ props.query }
         onMouseDown={ props.onMouseDown }
@@ -26,10 +27,12 @@ QueryInput.propTypes = {
   onKeyPress: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   query: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
 };
 
 QueryInput.defaultProps = {
-  loading: false
+  loading: false,
+  placeholder: '',
 };
 
 export default QueryInput;
