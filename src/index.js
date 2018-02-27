@@ -55,7 +55,7 @@ class DadataSuggestions extends Component {
   }
 
   state = {
-    query: this.props.query,
+    query: '',
     suggestions: [],
     selected: -1,
     loading: false,
@@ -63,6 +63,14 @@ class DadataSuggestions extends Component {
     error: false,
     showSuggestions: false
   };
+
+  componentWillMount() {
+    this.setState({ query: this.props.query });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ query: nextProps.query });
+  }
 
   fetchData = (query) => {
     this.setState({
