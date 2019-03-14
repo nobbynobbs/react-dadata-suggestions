@@ -16,7 +16,7 @@ class DadataSuggestions extends Component {
   static propTypes = {
     token: PropTypes.string.isRequired,
     count: PropTypes.number.isRequired,
-    //deferRequestBy: PropTypes.number.isRequired, // doesn't work with fetch Api
+    deferRequestBy: PropTypes.number.isRequired,
     hint: PropTypes.string.isRequired,
     minChars: PropTypes.number.isRequired,
     geolocation: PropTypes.bool.isRequired,
@@ -38,7 +38,7 @@ class DadataSuggestions extends Component {
   static defaultProps = {
     token: '',
     count: 10,
-    //deferRequestBy: 300,
+    deferRequestBy: 300,
     minChars: 3,
     geolocation: true,
     hint: 'Выберите вариант ниже или продолжите ввод',
@@ -52,6 +52,7 @@ class DadataSuggestions extends Component {
     const {token, service, geolocation} = props;
     this.api = new Api(token, service, geolocation);
     this.handleKeyPress = handleKeyPress.bind(this);
+    this.fetchTimeoutId = null;
   }
 
   state = {
@@ -75,6 +76,14 @@ class DadataSuggestions extends Component {
       showSuggestions: false,
       success: false,
     });
+  }
+
+  componentWillUnmount() {
+    this.clearFetchTimeout();
+  }
+
+  clearFetchTimeout = () => {
+    if (this.fetchTimeoutId) clearTimeout(this.fetchTimeoutId);
   }
 
   fetchData = (query) => {
@@ -110,6 +119,9 @@ class DadataSuggestions extends Component {
 
   handleChange = (e) => {
     const query = e.target.value;
+    const { deferRequestBy } = this.props;
+    
+    this.clearFetchTimeout();
     this.setState({
       query,
       selected: -1
@@ -117,7 +129,9 @@ class DadataSuggestions extends Component {
 
     const { minChars } = this.props;
     if (query.length >= minChars) {
-      this.fetchData(query);
+      this.fetchTimeoutId = setTimeout(() => {
+        this.fetchData(query);
+      }, deferRequestBy);
     } else {
       this.setState({
         suggestions: [],
@@ -130,7 +144,7 @@ class DadataSuggestions extends Component {
     if (onChange) {
       onChange(query);
     }
-  };
+  }
 
   handleBlur = () => {
     this.makeListInvisible();
