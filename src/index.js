@@ -69,6 +69,10 @@ class DadataSuggestions extends Component {
     this.setState({ query: this.props.query });
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       query: nextProps.query,
@@ -80,6 +84,7 @@ class DadataSuggestions extends Component {
 
   componentWillUnmount() {
     this.clearFetchTimeout();
+    this._isMounted = false;
   }
 
   clearFetchTimeout = () => {
@@ -87,22 +92,26 @@ class DadataSuggestions extends Component {
   }
 
   fetchData = (query) => {
-    this.setState({
-      loading: true,
-      success: false,
-    });
+    if (this._isMounted) {
+      this.setState({
+        loading: true,
+        success: false,
+      });
+    }
 
     const requestBody = buildRequestBody(query, this.props);
 
     this.api.suggestions(requestBody)
       .then(suggestions => {
-        this.setState({
-          suggestions,
-          loading: false,
-          error: false,
-          success: true,
-          showSuggestions: true,
-        });
+        if (this._isMounted) {
+          this.setState({
+            suggestions,
+            loading: false,
+            error: false,
+            success: true,
+            showSuggestions: true,
+          });
+        }
       })
       .catch(e => this.handleError(e));
   };
@@ -120,12 +129,14 @@ class DadataSuggestions extends Component {
   handleChange = (e) => {
     const query = e.target.value;
     const { deferRequestBy } = this.props;
-    
+
     this.clearFetchTimeout();
-    this.setState({
-      query,
-      selected: -1
-    });
+    if (this._isMounted) {
+      this.setState({
+        query,
+        selected: -1
+      });
+    }
 
     const { minChars } = this.props;
     if (query.length >= minChars) {
@@ -133,11 +144,13 @@ class DadataSuggestions extends Component {
         this.fetchData(query);
       }, deferRequestBy);
     } else {
-      this.setState({
-        suggestions: [],
-        showSuggestions: false,
-        success: false,
-      });
+      if (this._isMounted) {
+        this.setState({
+          suggestions: [],
+          showSuggestions: false,
+          success: false,
+        });
+      }
     }
 
     const { onChange } = this.props;
@@ -155,11 +168,13 @@ class DadataSuggestions extends Component {
   };
 
   handleError = (e) => {
-    this.setState({
-      error: true,
-      loading: false,
-      success: false,
-    });
+    if (this._isMounted) {
+      this.setState({
+        error: true,
+        loading: false,
+        success: false,
+      });
+    }
     const { onError } = this.props;
     if (onError) {
       onError(e);
