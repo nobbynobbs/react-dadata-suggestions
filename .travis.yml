@@ -1,7 +1,14 @@
 language: node_js
 node_js:
-  - "10"
+- '10'
 script:
-  - npm run-script build
+- npm run-script build
 if: tag IS present
-
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: rbolkhovitin@gmail.com
+  api_key:
+    secure: hS8w82gvE5n48yttQzyhlLc0vTtvBSAJl2CW5OTNn9t043pud/7/8xCYj29k0VwsXUn2BICDmvXh8LTlziQchRJ3zXYDOSHboGOs0yOxj3+XCgo4z+d5XRQM9UNsdgLawq/WmrhVK5iXxSzmZm4h9YnkLWsnl52IW1bZgsieSShYeRqGxpY1eD9z46KEdPLWDGsdDM2AbMHuU6CrjPSkO0iSnxkY1SGrVqASrvUgsAs2HL2qmTXD7W8gWU3Jg363DshbcMwlJboGgNMbdcGuVTzFtyFuF30xGs0xpiF67Lp5azOl8woOSe8mUIxfZMXJyXDn22as8BojhARPR9xce6HAenfukFZcO03oEs1z0rfp3l3OonMnPYx8TtcWzs7BEEo56uDL3CBx+nhuvzUvQ0KGuOsA+e1R2pQZbeVam3akTteEyGFhipk5hWS8pY9BEGr9dLabff2p4Pt1r3M7eae9aodmOKMUnBdYWkRFMf7hBNggC5HarT8RoSD3ms2GzsSbrbHvIk893Wv+iQxUTe9B1nis91CNtYT1aW7nujy/CHRiayC/p9XdjbvvE6a9O5FIMqqwaQHx5l9TV52v2GwUlOxNSm7jTZqiX6fRS6g9ey+MeIi+TnecqaUOY07u7EZtsPdegqhMtMs+qYcsXzm1cz8XB8cEHErsY6slGVY=
+  on:
+    tags: true
