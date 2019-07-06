@@ -16,6 +16,7 @@ Just another one React component for [dadata suggestions](https://dadata.ru/sugg
 ```javascript
 import React, { Component } from 'react';
 import DadataSuggestions from 'react-dadata-suggestions';
+import "react-dadata-suggestions/dist/styles.css";
 
 const token = 'your_token';
 
