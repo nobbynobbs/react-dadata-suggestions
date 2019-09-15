@@ -74,12 +74,11 @@ class DadataSuggestions extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      query: nextProps.query,
-      suggestions: [],
-      showSuggestions: false,
-      success: false,
-    });
+    const newQuery = nextProps.query;
+    const { query } = this.props;
+    if (newQuery != query) {
+      this.handleChange(newQuery);
+    }
   }
 
   componentWillUnmount() {
@@ -126,8 +125,7 @@ class DadataSuggestions extends Component {
     return searchWords;
   };
 
-  handleChange = (e) => {
-    const query = e.target.value;
+  handleChange = (query) => {
     const { deferRequestBy } = this.props;
 
     this.clearFetchTimeout();
@@ -258,7 +256,7 @@ class DadataSuggestions extends Component {
     return (
       <div className="suggestions-container">
         <QueryInput
-          onChange={ this.handleChange }
+          onChange={ e => this.handleChange(e.target.value) }
           placeholder={ this.props.placeholder }
           loading={ loading }
           query={ query }
