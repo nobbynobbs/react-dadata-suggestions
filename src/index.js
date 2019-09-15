@@ -25,6 +25,7 @@ class DadataSuggestions extends Component {
     highlighting: PropTypes.bool.isRequired,
     specialRequestOptions: PropTypes.object,
     placeholder: PropTypes.string,
+    receivePropsBehaveLikeOnChange: PropTypes.bool,
 
     //handlers:
     onSelect: PropTypes.func.isRequired,
@@ -45,6 +46,7 @@ class DadataSuggestions extends Component {
     query: '',
     service: 'address',
     highlighting: true,
+    receivePropsBehaveLikeOnChange: false,
   };
 
   constructor(props) {
@@ -73,11 +75,31 @@ class DadataSuggestions extends Component {
     this._isMounted = true;
   }
 
-  componentWillReceiveProps(nextProps) {
+  oldComponentWillReceiveProps = nextProps => {
+    // just reset everything
+    this.setState({
+      query: nextProps.query,
+      suggestions: [],
+      showSuggestions: false,
+      success: false,
+    });
+  };
+  
+  newComponentWillReceiveProps = nextProps => {
+    // behaves like onChange behaves
     const newQuery = nextProps.query;
     const { query } = this.props;
     if (newQuery != query) {
       this.handleChange(newQuery);
+    }
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { receivePropsBehaveLikeOnChange } = this.props
+    if (receivePropsBehaveLikeOnChange) {
+      this.newComponentWillReceiveProps(nextProps);
+    } else {
+      this.oldComponentWillReceiveProps(nextProps);
     }
   }
 
