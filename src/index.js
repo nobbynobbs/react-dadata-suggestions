@@ -225,11 +225,11 @@ class DadataSuggestions extends Component {
   };
 
   makeListVisible = () => {
-    const { showSuggestions, suggestions } = this.state;
+    const { showSuggestions } = this.state;
     if (showSuggestions) {
       return
     }
-    this.setState({showSuggestions: !!suggestions.length});
+    this.setState({ showSuggestions: true });
   };
 
   handleFocus = () => {
