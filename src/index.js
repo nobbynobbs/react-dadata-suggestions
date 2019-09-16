@@ -55,6 +55,7 @@ class DadataSuggestions extends Component {
     this.api = new Api(token, service, geolocation);
     this.handleKeyPress = handleKeyPress.bind(this);
     this.fetchTimeoutId = null;
+    this.selectEventFired = false;
   }
 
   state = {
@@ -64,7 +65,7 @@ class DadataSuggestions extends Component {
     loading: false,
     success: false,
     error: false,
-    showSuggestions: false
+    showSuggestions: false,
   };
 
   componentWillMount() {
@@ -87,8 +88,14 @@ class DadataSuggestions extends Component {
   
   newComponentWillReceiveProps = nextProps => {
     // behaves like onChange behaves
-    const newQuery = nextProps.query;
+    const { query: newQuery } = nextProps;
     const { query } = this.props;
+    // this if block prevents state update
+    // on props changes caused by select event
+    if (this.selectEventFired) {
+        this.selectEventFired = false;
+        return;
+    }
     if (newQuery != query) {
       this.handleChange(newQuery);
     }
@@ -210,6 +217,7 @@ class DadataSuggestions extends Component {
         query
       }
     });
+    this.selectEventFired = true;
   };
 
   handleSelect = (index) => () => {
@@ -219,7 +227,7 @@ class DadataSuggestions extends Component {
     }
     const selectedSuggestion = this.state.suggestions[index];
     const { onSelect } = this.props;
-    onSelect(selectedSuggestion)
+    onSelect(selectedSuggestion);
   };
 
   formatter = (suggestion, name) => {
