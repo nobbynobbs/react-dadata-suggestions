@@ -10,6 +10,8 @@ import { handleKeyPress } from './handlers';
 import Api from './api/FetchApi';
 import { buildRequestBody } from "./api/helpers";
 import { SHORT_TYPES } from "./constants/index";
+import { isFunction } from "./helpers";
+
 
 class DadataSuggestions extends Component {
 
@@ -31,6 +33,7 @@ class DadataSuggestions extends Component {
     onSelect: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     onError: PropTypes.func,
+    onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     suggestionsFormatter: PropTypes.func,
     selectedSuggestionFormatter: PropTypes.func,
@@ -186,11 +189,11 @@ class DadataSuggestions extends Component {
     }
   }
 
-  handleBlur = () => {
+  handleBlur = (event) => {
     this.makeListInvisible();
     const { onBlur } = this.props;
-    if (onBlur) {
-      onBlur();
+    if (isFunction(onBlur)) {
+      onBlur(event);
     }
   };
 
@@ -262,7 +265,7 @@ class DadataSuggestions extends Component {
     this.setState({ showSuggestions: true });
   };
 
-  handleFocus = () => {
+  handleFocus = (event) => {
     const { query, success, suggestions, selected, error } = this.state;
     const { minChars } = this.props;
 
@@ -270,6 +273,11 @@ class DadataSuggestions extends Component {
       this.makeListVisible();
     } else if (query.length >= minChars && !success && !error) {
       this.fetchData(query);
+    }
+
+    const { onFocus } = this.props;
+    if (isFunction(onFocus)) {
+      onFocus(event);
     }
   };
 

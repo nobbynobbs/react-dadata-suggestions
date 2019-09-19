@@ -58,6 +58,7 @@ export default App;
 |onChange (query)|function|be called when user typing something in input field| false||
 |onError (error)|function|will be called if api request failed|false||
 |onBlur|function|will be called on focus out|false||
+|onFocus|function|will be called on focus event|false||
 
 > The structure of `suggestion` object can be found in [official dadata api documentation](https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669100)
 
