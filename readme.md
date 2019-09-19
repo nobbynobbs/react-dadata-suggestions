@@ -64,6 +64,9 @@ export default App;
 
 - `receivePropsBehaveLikeOnChange` - change the behavior of `componentWillReceiveProps` life-cycle hook. By default this handler just resets the state of component. If this prop is set to `true` `componentWillReceiveProps` will behave exactly like `onChange` handler do. Probably it must be the only behavior, but the first implementation was keeped as default for backward compability reasons.
 
+#### Highlighting
+
+Override class `.suggestions-highlighting` in your CSS to customize highlighting.
 
 ## License
 

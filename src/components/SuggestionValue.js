@@ -7,7 +7,7 @@ const SuggestionValue = ({highlighting, searchWords, value}) => {
     <span className="suggestions-value">
       {
         highlighting ? <Highlighter
-          //highlightClassName=''
+          highlightClassName="suggestions-highlighting"
           searchWords={ searchWords }
           autoEscape={ true }
           textToHighlight={ value }
