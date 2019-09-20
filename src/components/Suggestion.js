@@ -13,7 +13,7 @@ class Suggestion extends Component {
   handleBlur = () => this.setHover(false);
 
   render() {
-    const { selected, highlighting, searchWords, subtext, value } = this.props;
+    const { selected, highlighting, searchWords, subtext, value, status } = this.props;
     const selectedClass = selected || this.state.hover ? ' suggestions-selected' : '';
     return (
       <div
@@ -23,7 +23,7 @@ class Suggestion extends Component {
         onMouseDown={ this.props.onSelect }
       >
         <SuggestionValue
-          {...{ highlighting, searchWords, value }}
+          {...{ highlighting, searchWords, value, status }}
         />
         <SuggestionSubtext>{ subtext }</SuggestionSubtext>
       </div>

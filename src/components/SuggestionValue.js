@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Highlighter from 'react-highlight-words';
 
-const SuggestionValue = ({highlighting, searchWords, value}) => {
+const SuggestionValue = ({highlighting, searchWords, value, status}) => {
   return (
-    <span className="suggestions-value">
+    <span className="suggestions-value" data-suggestion-status={ status }>
       {
         highlighting ? <Highlighter
           highlightClassName="suggestions-highlighting"
