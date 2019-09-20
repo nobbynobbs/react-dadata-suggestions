@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Suggestion from './Suggestion';
+import { getProp } from '../helpers';
+
+const getStatus = suggestion => getProp(suggestion, ["data", "state", "status"]);
 
 const SuggestionsList = (props) => {
   const { suggestions, visible, selected } = props;
@@ -20,6 +23,7 @@ const SuggestionsList = (props) => {
               highlighting = { props.highlighting }
               value = { props.suggestionsFormatter(suggestion) }
               subtext = { props.subtextFormatter(suggestion) }
+              status = { getStatus(suggestion) }
             />)
           }
         </div>
