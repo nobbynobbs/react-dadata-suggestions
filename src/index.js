@@ -28,6 +28,8 @@ class DadataSuggestions extends Component {
     specialRequestOptions: PropTypes.object,
     placeholder: PropTypes.string,
     receivePropsBehaveLikeOnChange: PropTypes.bool,
+    disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
 
     //handlers:
     onSelect: PropTypes.func.isRequired,
@@ -72,7 +74,13 @@ class DadataSuggestions extends Component {
   };
 
   componentWillMount() {
-    this.setState({ query: this.props.query });
+    const { initialValue, query } = this.props;
+    this.setState({ query });
+    // todo: find a better way
+    if (!!initialValue) {
+        this.setState({ suggestions: [initialValue] });
+        this.selectSuggestion(0);
+    }
   }
 
   componentDidMount() {
@@ -258,6 +266,12 @@ class DadataSuggestions extends Component {
   };
 
   makeListVisible = () => {
+
+    const { readOnly } = this.props;
+    if (readOnly) {
+        return;
+    }
+
     const { showSuggestions } = this.state;
     if (showSuggestions) {
       return
@@ -266,6 +280,11 @@ class DadataSuggestions extends Component {
   };
 
   handleFocus = (event) => {
+    const { readOnly } = this.props;
+    if (readOnly) {
+        return;
+    }
+
     const { query, success, suggestions, selected, error } = this.state;
     const { minChars } = this.props;
 
@@ -296,6 +315,8 @@ class DadataSuggestions extends Component {
         <QueryInput
           onChange={ e => this.handleChange(e.target.value) }
           placeholder={ this.props.placeholder }
+          disabled={this.props.disabled}
+          readOnly={this.props.readOnly}
           loading={ loading }
           query={ query }
           onMouseDown={ this.makeListVisible }

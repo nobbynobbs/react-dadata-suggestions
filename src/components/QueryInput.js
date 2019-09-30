@@ -16,6 +16,8 @@ const QueryInput = (props) => {
         onKeyDown={ props.onKeyPress }
         onBlur={ props.onBlur }
         onFocus={ props.onFocus }
+        disabled={ props.disabled }
+        readOnly= { props.readOnly }
       />
     );
 };
