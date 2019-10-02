@@ -95,7 +95,8 @@ class DadataSuggestions extends Component {
   newComponentWillReceiveProps = nextProps => {
     // behaves like onChange behaves
     const { query: newQuery, value: newValue } = nextProps;
-    const { query, value } = this.props;
+    const { value } = this.props;
+    const { query } = this.state;
 
     // set external suggestion, passed through props
     if (!!newValue && !isEqual(newValue, value)) {
