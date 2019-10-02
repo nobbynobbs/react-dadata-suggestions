@@ -51,7 +51,7 @@ export default App;
 |service|string|available values: `address`, `bank`, `fio`, `email` and `party` (I don't know why, but api for searching of the companies is called "party")|false|`address`|
 |highlighting|bool|highlight matched words in suggestions|false|`true`|
 |receivePropsBehaveLikeOnChange|bool|see below| false| `false` |
-|initialValue|object|suggestion item|false|null|
+|initial|object|suggestion item|false|null|
 |readOnly||mark field as readonly|false||
 |disabled||mark field as disabled|false||
 |suggestionsFormatter (suggestion)|function|custom formatter for items in suggestions list|false||

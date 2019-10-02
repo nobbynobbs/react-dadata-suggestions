@@ -10,7 +10,7 @@ import { handleKeyPress } from './handlers';
 import Api from './api/FetchApi';
 import { buildRequestBody } from "./api/helpers";
 import { SHORT_TYPES } from "./constants/index";
-import { isFunction } from "./helpers";
+import { isFunction, isEqual } from "./helpers";
 
 
 class DadataSuggestions extends Component {
@@ -74,13 +74,8 @@ class DadataSuggestions extends Component {
   };
 
   componentWillMount() {
-    const { initialValue, query } = this.props;
+    const { query } = this.props;
     this.setState({ query });
-    // todo: find a better way
-    if (!!initialValue) {
-        this.setState({ suggestions: [initialValue] });
-        this.selectSuggestion(0);
-    }
   }
 
   componentDidMount() {
@@ -99,8 +94,16 @@ class DadataSuggestions extends Component {
   
   newComponentWillReceiveProps = nextProps => {
     // behaves like onChange behaves
-    const { query: newQuery } = nextProps;
-    const { query } = this.props;
+    const { query: newQuery, value: newValue } = nextProps;
+    const { query, value } = this.props;
+
+    // set external suggestion, passed through props
+    if (!!newValue && !isEqual(newValue, value)) {
+        this.setState({ suggestions: [newValue]});
+        this.selectSuggestion(0);
+        return
+    }
+
     // this if block prevents state update
     // on props changes caused by select event
     if (this.selectEventFired) {
