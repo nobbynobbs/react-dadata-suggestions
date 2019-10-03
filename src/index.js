@@ -10,7 +10,7 @@ import { handleKeyPress } from './handlers';
 import Api from './api/FetchApi';
 import { buildRequestBody } from "./api/helpers";
 import { SHORT_TYPES } from "./constants/index";
-import { isFunction } from "./helpers";
+import { isFunction, isEqual } from "./helpers";
 
 
 class DadataSuggestions extends Component {
@@ -28,6 +28,8 @@ class DadataSuggestions extends Component {
     specialRequestOptions: PropTypes.object,
     placeholder: PropTypes.string,
     receivePropsBehaveLikeOnChange: PropTypes.bool,
+    disabled: PropTypes.bool,
+    readOnly: PropTypes.bool,
 
     //handlers:
     onSelect: PropTypes.func.isRequired,
@@ -72,7 +74,8 @@ class DadataSuggestions extends Component {
   };
 
   componentWillMount() {
-    this.setState({ query: this.props.query });
+    const { query } = this.props;
+    this.setState({ query });
   }
 
   componentDidMount() {
@@ -91,8 +94,17 @@ class DadataSuggestions extends Component {
   
   newComponentWillReceiveProps = nextProps => {
     // behaves like onChange behaves
-    const { query: newQuery } = nextProps;
-    const { query } = this.props;
+    const { query: newQuery, value: newValue } = nextProps;
+    const { value } = this.props;
+    const { query } = this.state;
+
+    // set external suggestion, passed through props
+    if (!!newValue && !isEqual(newValue, value)) {
+        this.setState({ suggestions: [newValue]});
+        this.selectSuggestion(0);
+        return
+    }
+
     // this if block prevents state update
     // on props changes caused by select event
     if (this.selectEventFired) {
@@ -258,6 +270,12 @@ class DadataSuggestions extends Component {
   };
 
   makeListVisible = () => {
+
+    const { readOnly } = this.props;
+    if (readOnly) {
+        return;
+    }
+
     const { showSuggestions } = this.state;
     if (showSuggestions) {
       return
@@ -266,6 +284,11 @@ class DadataSuggestions extends Component {
   };
 
   handleFocus = (event) => {
+    const { readOnly } = this.props;
+    if (readOnly) {
+        return;
+    }
+
     const { query, success, suggestions, selected, error } = this.state;
     const { minChars } = this.props;
 
@@ -296,6 +319,8 @@ class DadataSuggestions extends Component {
         <QueryInput
           onChange={ e => this.handleChange(e.target.value) }
           placeholder={ this.props.placeholder }
+          disabled={this.props.disabled}
+          readOnly={this.props.readOnly}
           loading={ loading }
           query={ query }
           onMouseDown={ this.makeListVisible }
