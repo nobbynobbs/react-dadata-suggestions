@@ -11,7 +11,7 @@ Just another one React component for [dadata suggestions](https://dadata.ru/sugg
 
 ### Basic usage
 
-[![Edit p95804280q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/p95804280q)
+[Examples on sandbox](https://codesandbox.io/embed/p95804280q)
 
 ```javascript
 import React, { Component } from 'react';
