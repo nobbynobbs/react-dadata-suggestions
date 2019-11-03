@@ -30,6 +30,7 @@ class DadataSuggestions extends Component {
     receivePropsBehaveLikeOnChange: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
+    name: PropTypes.string,
 
     //handlers:
     onSelect: PropTypes.func.isRequired,
@@ -42,6 +43,7 @@ class DadataSuggestions extends Component {
   };
 
   static defaultProps = {
+    name: null,
     token: '',
     count: 10,
     deferRequestBy: 300,
@@ -314,30 +316,41 @@ class DadataSuggestions extends Component {
 
   render() {
     const {loading, query, showSuggestions, suggestions, selected} = this.state;
+    const {
+      name, placeholder, disabled, readOnly,  // QuieryInput props
+      hint, highlighting,                     // SuggestionsList props
+    } = this.props;
     return (
       <div className="suggestions-container">
         <QueryInput
-          onChange={ e => this.handleChange(e.target.value) }
-          placeholder={ this.props.placeholder }
-          disabled={this.props.disabled}
-          readOnly={this.props.readOnly}
+          // props
+          name={ name }
+          placeholder={ placeholder }
+          disabled={ disabled }
+          readOnly={ readOnly }
+          // state
           loading={ loading }
           query={ query }
+          // handlers
           onMouseDown={ this.makeListVisible }
           onKeyPress={ this.handleKeyPress }
           onBlur={ this.handleBlur }
           onFocus={ this.handleFocus }
+          onChange={ e => this.handleChange(e.target.value) }
         />
 
         <SuggestionsList
+          // props
+          hint={ hint }
+          highlighting = { highlighting }
+          // state
           suggestions={ suggestions }
-          hint={ this.props.hint }
+          selected={ selected }
           visible={ showSuggestions }
-          onSelect={this.handleSelect}
-          selected={selected}
-          suggestionsFormatter={this.suggestionsFormatter}
+          // class attributes
+          onSelect={ this.handleSelect }
+          suggestionsFormatter={ this.suggestionsFormatter }
           searchWords={ this.searchWords }
-          highlighting = { this.props.highlighting }
           subtextFormatter = { this.subtextFormatter }
         />
       </div>

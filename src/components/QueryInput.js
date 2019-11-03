@@ -2,22 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const QueryInput = (props) => {
-    const {loading} = props;
+    const {
+      name, loading, placeholder, query, disabled, readOnly,
+      onChange, onMouseDown, onKeyPress, onBlur, onFocus,
+    } = props;
     const className = `suggestions-input${loading ? ' loading' : '' }`;
     return (
       <input
         type="text"
         className={ className }
-        placeholder = { props.placeholder }
-        onChange={ props.onChange }
-        value={ props.query }
-        onMouseDown={ props.onMouseDown }
-        onKeyPress={ props.onKeyPress }
-        onKeyDown={ props.onKeyPress }
-        onBlur={ props.onBlur }
-        onFocus={ props.onFocus }
-        disabled={ props.disabled }
-        readOnly= { props.readOnly }
+        // props
+        name={ name }
+        placeholder = { placeholder }
+        value={ query }
+        disabled={ disabled }
+        readOnly= { readOnly }
+        // handlers
+        onChange={ onChange }
+        onMouseDown={ onMouseDown }
+        onKeyPress={ onKeyPress }
+        onKeyDown={ onKeyPress }
+        onBlur={ onBlur }
+        onFocus={ onFocus }
       />
     );
 };

@@ -52,6 +52,7 @@ export default App;
 |highlighting|bool|highlight matched words in suggestions|false|`true`|
 |receivePropsBehaveLikeOnChange|bool|see below| false| `false` |
 |value|object|suggestion item|false|null|
+|name|string|input name|false|null|
 |readOnly||mark field as readonly|false||
 |disabled||mark field as disabled|false||
 |suggestionsFormatter (suggestion)|function|custom formatter for items in suggestions list|false||
