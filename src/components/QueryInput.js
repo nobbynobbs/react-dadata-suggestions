@@ -13,6 +13,7 @@ const QueryInput = (props) => {
         className={ className }
         // props
         name={ name }
+        autocomplete="off"
         placeholder = { placeholder }
         value={ query }
         disabled={ disabled }
