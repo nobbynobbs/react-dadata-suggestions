@@ -11,9 +11,9 @@ const QueryInput = (props) => {
       <input
         type="text"
         className={ className }
+        autoComplete="off"
         // props
         name={ name }
-        autocomplete="off"
         placeholder = { placeholder }
         value={ query }
         disabled={ disabled }
