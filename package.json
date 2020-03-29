@@ -1,10 +1,15 @@
 {
   "name": "react-dadata-suggestions",
-  "version": "1.3.3",
+  "version": "2.0.0-beta.0",
   "description": "Just another one react component for dadata suggestions",
   "license": "MIT",
   "keywords": [
-    "dadata", "suggestions", "reactjs", "react", "дадата", "подсказки"
+    "dadata",
+    "suggestions",
+    "reactjs",
+    "react",
+    "дадата",
+    "подсказки"
   ],
   "repository": {
     "type": "git",
