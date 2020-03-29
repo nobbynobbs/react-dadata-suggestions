@@ -27,7 +27,6 @@ class DadataSuggestions extends Component {
     highlighting: PropTypes.bool.isRequired,
     specialRequestOptions: PropTypes.object,
     placeholder: PropTypes.string,
-    receivePropsBehaveLikeOnChange: PropTypes.bool,
     disabled: PropTypes.bool,
     readOnly: PropTypes.bool,
     name: PropTypes.string,
@@ -53,7 +52,6 @@ class DadataSuggestions extends Component {
     query: '',
     service: 'address',
     highlighting: true,
-    receivePropsBehaveLikeOnChange: false,
   };
 
   constructor(props) {
@@ -84,17 +82,7 @@ class DadataSuggestions extends Component {
     this._isMounted = true;
   }
 
-  oldComponentWillReceiveProps = nextProps => {
-    // just reset everything
-    this.setState({
-      query: nextProps.query,
-      suggestions: [],
-      showSuggestions: false,
-      success: false,
-    });
-  };
-  
-  newComponentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // behaves like onChange behaves
     const { query: newQuery, value: newValue } = nextProps;
     const { value } = this.props;
@@ -115,15 +103,6 @@ class DadataSuggestions extends Component {
     }
     if (newQuery !== query) {
       this.handleChange(newQuery);
-    }
-  };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { receivePropsBehaveLikeOnChange } = this.props;
-    if (receivePropsBehaveLikeOnChange) {
-      this.newComponentWillReceiveProps(nextProps);
-    } else {
-      this.oldComponentWillReceiveProps(nextProps);
     }
   }
 
@@ -242,6 +221,7 @@ class DadataSuggestions extends Component {
     if (index !== selected) {
       this.selectSuggestion(index);
     }
+    this.makeListInvisible();
     const selectedSuggestion = this.state.suggestions[index];
     const { onSelect } = this.props;
     onSelect(selectedSuggestion);

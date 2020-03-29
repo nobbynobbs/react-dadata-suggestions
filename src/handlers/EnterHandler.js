@@ -7,7 +7,6 @@ function EnterHandler(e, context) {
     e.preventDefault();
     if (selected !== -1) {
       context.handleSelect(selected)();
-      context.makeListInvisible();
     } else if (!!suggestions.length) {
       const { query } = context.state;
       const trimmedQuery = query.trim();
@@ -16,7 +15,6 @@ function EnterHandler(e, context) {
       });
       if (index !== -1) {
         context.handleSelect(index)();
-        context.makeListInvisible();
       }
     }
   };
