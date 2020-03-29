@@ -1,10 +1,5 @@
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-
-const extractLess = new ExtractTextPlugin({
-  filename: "styles.css",
-  disable: process.env.NODE_ENV === "development"
-});
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: ['./src/index.js'],
@@ -13,6 +8,12 @@ module.exports = {
     filename: 'index.js',
     libraryTarget: 'commonjs2' // THIS IS THE MOST IMPORTANT LINE! :mindblow: I wasted more than 2 days until realize this was the line most important in all this guide.
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "styles.css",
+      disable: process.env.NODE_ENV === "development"
+    })
+  ],
   module: {
     rules: [
       {
@@ -25,25 +26,28 @@ module.exports = {
       },
       {
         test: /\.less$|\.css$/,
-        use: extractLess.extract({
-          use: [{
-            loader: "css-loader",
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
             options: {
-              minimize: true
+              hmr: process.env.NODE_ENV === 'development',
             }
-          }, {
-            loader: "less-loader"
+          },
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "less-loader",
+            options: {
+              javascriptEnabled: true
+            }
           }],
-          // use style-loader in development
-          fallback: "style-loader"
-        })
       }
     ]
   },
   externals: {
-    'react': 'commonjs react' // this line is just to use the React dependency of our parent-testing-project instead of using our own React.
-  },
-  plugins: [
-    extractLess
-  ]
+    // this line is just to use the React dependency of our
+    // parent-testing-project instead of using our own React.
+    'react': 'commonjs react'
+  }
 };

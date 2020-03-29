@@ -1,17 +1,17 @@
 # react-dadata-suggestions
 
-Just another one React component for [dadata suggestions](https://dadata.ru/suggestions "official website").
+React-компонент для [подсказок dadata](https://dadata.ru/suggestions "official website").
 
-## Getting started
+## С чего начать
 
-### Installation
+### Установка
 `npm i --save react-dadata-suggestions`
 
-[page on npm](https://www.npmjs.com/package/react-dadata-suggestions) 
+[страница на npm](https://www.npmjs.com/package/react-dadata-suggestions)
 
-### Basic usage
+### Использование
 
-[Examples on sandbox](https://codesandbox.io/embed/p95804280q)
+[Песочница](https://codesandbox.io/embed/p95804280q)
 
 ```javascript
 import React, { Component } from 'react';
@@ -35,42 +35,46 @@ export default App;
 
 ```
 
-### Available props
+### Настройка
 
-#### Options
+#### Пропсы
 
 | prop | type | description | required | default |
 |:--------------:|:----------------:|:-------------------:|:----------:|:--------:|
-|token| string|api token|**true**|`''`|
-|count|integer|maximal suggestions count in list|false|`10`|
-|deferRequestBy|integer|delay in milliseconds before each request|false|`300`|
+|token| string|ваш api токен|**true**|`''`|
+|count|integer|максимальное количество подсказок в списке|false|`10`|
+|deferRequestBy|integer|задержка перед запросом в мс|false|`300`|
 |placeholder|string| |false|`''`|
-|hint|string|hint for user in suggestions list|false|`Выберите вариант ниже или продолжите ввод`|
-|minChars|integer|minimal length of query for requesting to api|false|`3`|
-|geolocation|boolean|priority to user city. Works for address suggestions only.|false|`true`|
-|service|string|available values: `address`, `bank`, `fio`, `email` and `party` (I don't know why, but api for searching of the companies is called "party")|false|`address`|
-|highlighting|bool|highlight matched words in suggestions|false|`true`|
-|receivePropsBehaveLikeOnChange|bool|see below| false| `false` |
-|value|object|suggestion item|false|null|
-|name|string|input name|false|null|
-|readOnly||mark field as readonly|false||
-|disabled||mark field as disabled|false||
-|suggestionsFormatter (suggestion)|function|custom formatter for items in suggestions list|false||
-|selectedSuggestionFormatter (suggestion)|function|the same as previous for selected suggestion (result will be placed in query string)|false||
-|specialRequestOptions|object|additional data for request body|false||
-|onSelect (suggestion)|function| be called when user select the address from suggestions|**true**||
-|onChange (query)|function|be called when user typing something in input field| false||
-|onError (error)|function|will be called if api request failed|false||
-|onBlur|function|will be called on focus out|false||
-|onFocus|function|will be called on focus event|false||
+|hint|string|подсказка для пользователя в выпадающем списке|false|`Выберите вариант ниже или продолжите ввод`|
+|minChars|integer|минимальная длина запроса для обращения к api|false|`3`|
+|geolocation|boolean|Приоритет городу пользователя, только для адресов|false|`true`|
+|service|string|Доступные значения: `address`, `bank`, `fio`, `email`, `party`|false|`address`|
+|highlighting|bool|подсветка совпавших слов в подсказках|false|`true`|
+|receivePropsBehaveLikeOnChange|bool|см. ниже| false| `false` |
+|value|object|экземпляр подсказки|false|null|
+|name|string|имя инпута|false|null|
+|readOnly||отметить инпут как readonly|false||
+|disabled||отметить инпут как disabled|false||
+|suggestionsFormatter (suggestion)|function|кастомный форматтер для подсказок в списке|false||
+|selectedSuggestionFormatter (suggestion)|function|кастомный форматтер для выбранной подсказки (результат будет установле в качестве строки запроса)|false||
+|specialRequestOptions|object|дополнительные параметры для тела запроса|false||
+|onSelect (suggestion)|function|обработчик выбора подсказки|**true**||
+|onChange (query)|function|обработчик изменения запроса| false||
+|onError (error)|function|обработчик ошибки обращения к api|false||
+|onBlur|function|вызывается когда фокус пропадает с элемента|false||
+|onFocus|function|вызывается при установке фокуса на элемент|false||
 
-> The structure of `suggestion` object can be found in [official dadata api documentation](https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669100)
+> Структуру `подсказки` можно подсмотреть в [официальной документации к api dadata](https://confluence.hflabs.ru/pages/viewpage.action?pageId=204669100)
 
-- `receivePropsBehaveLikeOnChange` - change the behavior of `componentWillReceiveProps` life-cycle hook. By default this handler just resets the state of component. If this prop is set to `true` `componentWillReceiveProps` will behave exactly like `onChange` handler do. Probably it must be the only behavior, but the first implementation was keeped as default for backward compability reasons.
+- `receivePropsBehaveLikeOnChange` - только для версий < 2.0.
+  Изменяет поведение`componentWillReceiveProps`. По умолчанию при обновлении пропсов
+  просто сбрасывается стейт, если же значение установлено в `true`, то
+  поведение `componentWillReceiveProps` совпадает с поведением `onChange`.
+  С версии 2.0 это единственный вариант поведения.
 
-#### Highlighting
+#### Подсветка совпадений
 
-Override class `.suggestions-highlighting` in your CSS to customize highlighting.
+Для кастомизации подсветки переопределите класс `.suggestions-highlighting`.
 
 ## License
 
