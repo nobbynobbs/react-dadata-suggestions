@@ -75,7 +75,7 @@ class DadataSuggestions extends Component {
     showSuggestions: false,
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { query } = this.props;
     this.setState({ query });
   }
@@ -113,13 +113,13 @@ class DadataSuggestions extends Component {
         this.selectEventFired = false;
         return;
     }
-    if (newQuery != query) {
+    if (newQuery !== query) {
       this.handleChange(newQuery);
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { receivePropsBehaveLikeOnChange } = this.props
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { receivePropsBehaveLikeOnChange } = this.props;
     if (receivePropsBehaveLikeOnChange) {
       this.newComponentWillReceiveProps(nextProps);
     } else {
@@ -134,7 +134,7 @@ class DadataSuggestions extends Component {
 
   clearFetchTimeout = () => {
     if (this.fetchTimeoutId) clearTimeout(this.fetchTimeoutId);
-  }
+  };
 
   fetchData = (query) => {
     if (this._isMounted) {
@@ -201,7 +201,7 @@ class DadataSuggestions extends Component {
     if (onChange) {
       onChange(query);
     }
-  }
+  };
 
   handleBlur = (event) => {
     this.makeListInvisible();
