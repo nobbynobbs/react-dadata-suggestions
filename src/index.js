@@ -5,6 +5,8 @@ import './styles/styles.less';
 import SuggestionsList from './components/SuggestionsList';
 import QueryInput from './components/QueryInput';
 
+import ClickOutSide from './components/ReactOutsideClick';
+
 import { handleKeyPress } from './handlers';
 
 import Api from './api/FetchApi';
@@ -301,39 +303,41 @@ class DadataSuggestions extends Component {
       hint, highlighting,                     // SuggestionsList props
     } = this.props;
     return (
-      <div className="suggestions-container">
-        <QueryInput
-          // props
-          name={ name }
-          placeholder={ placeholder }
-          disabled={ disabled }
-          readOnly={ readOnly }
-          // state
-          loading={ loading }
-          query={ query }
-          // handlers
-          onMouseDown={ this.makeListVisible }
-          onKeyPress={ this.handleKeyPress }
-          onBlur={ this.handleBlur }
-          onFocus={ this.handleFocus }
-          onChange={ e => this.handleChange(e.target.value) }
-        />
+      <ClickOutSide  className="suggestions-container" onOutsideClick={this.handleBlur}>
 
-        <SuggestionsList
-          // props
-          hint={ hint }
-          highlighting = { highlighting }
-          // state
-          suggestions={ suggestions }
-          selected={ selected }
-          visible={ showSuggestions }
-          // class attributes
-          onSelect={ this.handleSelect }
-          suggestionsFormatter={ this.suggestionsFormatter }
-          searchWords={ this.searchWords }
-          subtextFormatter = { this.subtextFormatter }
-        />
-      </div>
+          <QueryInput
+            // props
+            name={ name }
+            placeholder={ placeholder }
+            disabled={ disabled }
+            readOnly={ readOnly }
+            // state
+            loading={ loading }
+            query={ query }
+            // handlers
+            onMouseDown={ this.makeListVisible }
+            onKeyPress={ this.handleKeyPress }
+            onFocus={ this.handleFocus }
+            onChange={ e => this.handleChange(e.target.value) }
+          />
+
+          <SuggestionsList
+            // props
+            hint={ hint }
+            highlighting = { highlighting }
+            // state
+            suggestions={ suggestions }
+            selected={ selected }
+            visible={ showSuggestions }
+            // class attributes
+            onSelect={ this.handleSelect }
+            suggestionsFormatter={ this.suggestionsFormatter }
+            searchWords={ this.searchWords }
+            subtextFormatter = { this.subtextFormatter }
+          />
+
+      </ClickOutSide>
+
     );
   }
 }
