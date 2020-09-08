@@ -29,7 +29,10 @@
     "react": ">=16.3.0"
   },
   "dependencies": {
-    "react-highlight-words": "^0.16.0"
+    "airbnb-prop-types": "^2.15.0",
+    "react-highlight-words": "^0.16.0",
+    "consolidated-events": "^1.1.1 || ^2.0.0",
+    "document.contains": "^1.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
