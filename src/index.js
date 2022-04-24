@@ -140,6 +140,27 @@ class DadataSuggestions extends Component {
       .catch(e => this.handleError(e));
   };
 
+  fetchExactSuggestion = (unrestricted_value) => {
+    const requestBody = buildRequestBody(unrestricted_value, {count: 1});
+    this.api.suggestions(requestBody, false)
+        .then(suggestions => {
+          if (this._isMounted) {
+            const selectedSuggestion = suggestions[0];
+            const query = this.selectedSuggestionFormatter(selectedSuggestion);
+            this.setState({
+              suggestions,
+              selected: 0,
+              query,
+              loading: false,
+              error: false,
+              success: true,
+              showSuggestions: false,
+            });
+          }
+        })
+        .catch(e => this.handleError(e));
+  }
+
   searchWords = () => {
     const { query } = this.state;
     const searchWords = query.split(/[^-А-Яа-яЁё\d\w]+/);
@@ -205,14 +226,9 @@ class DadataSuggestions extends Component {
   };
 
   selectSuggestion = (index) => {
-    this.setState(({suggestions}) => {
-      const selectedSuggestion = suggestions[index];
-      const query = this.selectedSuggestionFormatter(selectedSuggestion);
-      return {
-        selected: index,
-        query
-      }
-    });
+    const {suggestions} = this.state;
+    const selectedSuggestion = suggestions[index];
+    this.fetchExactSuggestion(selectedSuggestion["unrestricted_value"]);
     this.selectEventFired = true;
   };
 

@@ -29,8 +29,8 @@ class FetchApi extends Api {
       .catch(() => null); // just die
   };
 
-  suggestions = (body) => {
-    if (!!this.locations_boost.length) {
+  suggestions = (body, lb = true) => {
+    if (lb && !!this.locations_boost.length) {
       body.locations_boost = this.locations_boost;
     }
     const request = this.requestFactory(this.endpoint, 'POST', body);
